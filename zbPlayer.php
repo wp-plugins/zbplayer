@@ -3,7 +3,7 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Player by outdated plugin <a href="http://wpaudioplayer.com/">WordPress Audio Player</a>.
-Version: 1.0
+Version: 1.1
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
@@ -14,13 +14,13 @@ Author URI: http://gilevich.com/
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 1.0, January 2013
+ *  Release 1.1, January 2013
  */
 ?>
 <?php
 
-const ZB_PLAYER_VERSION = "1.0";
-const ZB_DEFAULT_WIDTH = "300";
+define('ZBPLAYER_VERSION', "1.1");
+define('ZBPLAYER_DEFAULT_WIDTH', "300");
 
 // Hook to add scripts
 add_action('admin_menu','zbp_add_pages');
@@ -29,7 +29,7 @@ add_action("plugins_loaded", "zbp_init");
 
 function zbp_init() {
 	if (get_option('zbp_width') <= 0) {
-		update_option('zbp_width',ZB_DEFAULT_WIDTH);
+		update_option('zbp_width',ZBPLAYER_DEFAULT_WIDTH);
 	}
 }
 
@@ -52,7 +52,7 @@ function zbp_insert_player($matches)
   $name = $matches[5];
 	$download = get_option('zbp_download') == 'true' ? '<span> [<a href="'.$link.'" class="zbPlayer-download">Download</a>] </span>' : '';
 	$autostart = get_option('zbp_autostart') == 'true' ? 'yes' : 'no';
-	$width = get_option('zbp_width') > 0 ? intval(get_option('zbp_width')) : ZB_DEFAULT_WIDTH;
+	$width = get_option('zbp_width') > 0 ? intval(get_option('zbp_width')) : ZBPLAYER_DEFAULT_WIDTH;
   $ret = '<div class="zbPlayer"><a href="'.$link.'" class="zbPlayer">'.$name.'</a>' . $download
    . '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
 		. ' flashvars="playerID=zbPlayer&amp;titles='.$name.'&amp;soundFile='.urlencode($link)
@@ -62,7 +62,7 @@ function zbp_insert_player($matches)
 
 
 // See if we need to install/update
-if (get_option('zbp_version') != ZB_PLAYER_VERSION) zbp_setup(ZB_PLAYER_VERSION);
+if (get_option('zbp_version') != ZBPLAYER_VERSION) zbp_setup(ZBPLAYER_VERSION);
 
 // Add the script
 function zbp_add_pages() {
@@ -77,6 +77,6 @@ function zbp_manage_page() {
 
 
 // Setup Function
-function zbp_setup($ZB_PLAYER_VERSION) {
-	update_option('zbp_version',$ZB_PLAYER_VERSION);
+function zbp_setup($ZBPLAYER_VERSION) {
+	update_option('zbp_version',$ZBPLAYER_VERSION);
 }
