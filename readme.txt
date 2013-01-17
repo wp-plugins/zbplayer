@@ -38,10 +38,13 @@ No, zbPlayer automatically converts any link to an mp3 file into player. So, if 
 
 == Changelog ==
 
-= 1.0.0 =
+= 1.1 =
+*    Fix constants namings
+
+= 1.0 =
 *    Init version
 
 == Upgrade Notice ==
 
-= 1.0.0 =
+= 1.0 =
 *    Just Init version
