@@ -38,6 +38,9 @@ No, zbPlayer automatically converts any link to an mp3 file into player. So, if 
 
 == Changelog ==
 
+= 1.2 =
+*    Increased player width. Now player looks better.
+
 = 1.1 =
 *    Fix constants namings
 
