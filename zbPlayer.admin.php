@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 1.0 January 2013
+ *  Release 1.2 January 2013
  */
 // zbPlayer Admin Page
 
@@ -18,7 +18,7 @@ if (isset($_POST['action'])) {
 		if (isset($_POST['zbp_width'])) {
 			update_option('zbp_width',intval($_POST['zbp_width']));
 		} else {
-			update_option('zbp_width',ZB_DEFAULT_WIDTH);
+			update_option('zbp_width',ZBPLAYER_DEFAULT_WIDTH);
 		}
 		if (isset($_POST['zbp_autostart'])) {
 			update_option('zbp_autostart','true');

@@ -4,7 +4,7 @@ Donate link: http://gilevich.com/
 Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player
 Requires at least: 3.5
 Tested up to: 3.5
-Stable tag: 1.0
+Stable tag: 1.1
 License: Dual Licensed under the MIT and GPLv2 or later
 
 zbPlayer is a small and very easy plugin. It does one thing: capture mp3 links and insert a small flash player instead.
@@ -38,10 +38,16 @@ No, zbPlayer automatically converts any link to an mp3 file into player. So, if 
 
 == Changelog ==
 
-= 1.0.0 =
+= 1.2 =
+*    Increased player width. Now player looks better.
+
+= 1.1 =
+*    Fix constants namings
+
+= 1.0 =
 *    Init version
 
 == Upgrade Notice ==
 
-= 1.0.0 =
+= 1.0 =
 *    Just Init version
