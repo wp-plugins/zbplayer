@@ -64,13 +64,24 @@ function zbp_insert_player($matches)
 function zbp_urlencode($link)
 {
 	$url = parse_url($link);
-	$file = pathinfo($url['path']);
+	$file = zbp_mb_pathinfo($url['path']);
 
 	// prepare filename and encode if need
 	$filename = function_exists('mb_detect_encoding') && mb_detect_encoding($file['basename']) != "UTF-8" ? utf8_encode($file['basename']) : $file['basename']; 
 
 	$link = $url['scheme'] . '://' . $url['host'] . $file['dirname'] . '/' . zbp_flash_entities(urlencode($filename));
 	return $link;
+}
+
+// pathinfo with UTF-8 encoded file names too. Special thanks Pietro Baricco
+function zbp_mb_pathinfo($filepath)
+{
+	preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im',$filepath,$m);
+	if($m[1]) $ret['dirname']=$m[1];
+	if($m[2]) $ret['basename']=$m[2];
+	if($m[5]) $ret['extension']=$m[5];
+	if($m[3]) $ret['filename']=$m[3];
+	return $ret;
 }
 
 // replace special symbols to do not destoy flash vars
