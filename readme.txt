@@ -1,17 +1,17 @@
 ===zbPlayer ===
 Contributors: zubaka
 Donate link: http://gilevich.com/
-Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player
+Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player
 Requires at least: 3.5
 Tested up to: 3.5
-Stable tag: 1.2
+Stable tag: 1.3
 License: Dual Licensed under the MIT and GPLv2 or later
 
 zbPlayer is a small and very easy plugin. It does one thing: capture mp3 links and insert a small flash player instead.
 
 == Description ==
 
-zbPlayer is a very easy audio plugin - you can select some options like: include Download link or no, enable autoplay or no and setup width of player. Other things will be done by zbPlayer plugun automatically.
+zbPlayer is a very easy audio plugin - you can select some options like: include Download link or no, enable autoplay or no and setup width of player. Other things will be done by zbPlayer plugun automatically. One nice feature - player support cyrillic filenames without problem.
 
 == Installation ==
 
@@ -28,6 +28,10 @@ That's it, you're done.
 
 No, zbPlayer automatically converts any link to an mp3 file into player. So, if you put in &lt;a href="audio_file.mp3"&gt;A Link&lt;/a&gt; zbPlayer will automatically add a flash player on page.
 
+= Does player support cyrillic names for mp3 files? =
+
+Yes, here no problems with cyrillic filenames.
+
 == Screenshots ==
 
 1.  The minimized player.
@@ -37,6 +41,9 @@ No, zbPlayer automatically converts any link to an mp3 file into player. So, if 
 == Known Issues ==
 
 == Changelog ==
+
+= 1.3 =
+*    Allow to play files with cyrillic filenames.
 
 = 1.2 =
 *    Increased player width. Now player looks better.

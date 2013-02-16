@@ -3,7 +3,7 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Player by outdated plugin <a href="http://wpaudioplayer.com/">WordPress Audio Player</a>.
-Version: 1.2
+Version: 1.3
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
@@ -14,12 +14,12 @@ Author URI: http://gilevich.com/
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 1.2, January 2013
+ *  Release 1.3, February 2013
  */
 ?>
 <?php
 
-define('ZBPLAYER_VERSION', "1.2");
+define('ZBPLAYER_VERSION', "1.3");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 
 // Hook to add scripts
@@ -55,11 +55,29 @@ function zbp_insert_player($matches)
 	$width = get_option('zbp_width') > 0 ? intval(get_option('zbp_width')) : ZBPLAYER_DEFAULT_WIDTH;
   $ret = '<div class="zbPlayer"><a href="'.$link.'" class="zbPlayer">'.$name.'</a>' . $download . '<br/>'
    . '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
-		. ' flashvars="playerID=zbPlayer&amp;titles='.$name.'&amp;soundFile='.urlencode($link)
+		. ' flashvars="playerID=zbPlayer&amp;titles='.$name.'&amp;soundFile='.zbp_urlencode($link)
 		. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="/wp-content/plugins/zbplayer/data/player.swf" id="zbPlayer"/></div>';
   return $ret;
 }
 
+// own ulrencode method - need to convert to utf8 filename if it is not in utf8
+function zbp_urlencode($link)
+{
+	$url = parse_url($link);
+	$file = pathinfo($url['path']);
+
+	// prepare filename and encode if need
+	$filename = function_exists('mb_detect_encoding') && mb_detect_encoding($file['basename']) != "UTF-8" ? utf8_encode($file['basename']) : $file['basename']; 
+
+	$link = $url['scheme'] . '://' . $url['host'] . $file['dirname'] . '/' . zbp_flash_entities(urlencode($filename));
+	return $link;
+}
+
+// replace special symbols to do not destoy flash vars
+function zbp_flash_entities($string)
+{ 
+	return str_replace(array("%", "&","'"),array("%25","%26","%27"),$string); 
+} 
 
 // See if we need to install/update
 if (get_option('zbp_version') != ZBPLAYER_VERSION) zbp_setup(ZBPLAYER_VERSION);
