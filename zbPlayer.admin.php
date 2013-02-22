@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 1.3 February 2013
+ *  Release 1.4 February 2013
  */
 // zbPlayer Admin Page
 
