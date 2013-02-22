@@ -44,6 +44,7 @@ Yes, here no problems with cyrillic filenames.
 
 = 1.4 =
 *    Fixed problem with player path if wordpress works not from default directory
+*    Fixed pathinfo function - now it works with UTF-8 encoded file names too
 
 = 1.3 =
 *    Allow to play files with cyrillic filenames.
