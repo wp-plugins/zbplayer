@@ -56,7 +56,7 @@ function zbp_insert_player($matches)
   $ret = '<div class="zbPlayer"><a href="'.$link.'" class="zbPlayer">'.$name.'</a>' . $download . '<br/>'
    . '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
 		. ' flashvars="playerID=zbPlayer&amp;titles='.$name.'&amp;soundFile='.zbp_urlencode($link)
-		. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="/wp-content/plugins/zbplayer/data/player.swf" id="zbPlayer"/></div>';
+		. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';
   return $ret;
 }
 
