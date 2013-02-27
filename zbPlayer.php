@@ -47,13 +47,13 @@ function zbp_insert_player($matches)
 {
   $link = preg_split("/[\|]/", $matches[3]);
   $link = $link[0];
-  $name = $matches[5];
+  $name = str_replace('_', ' ', $matches[5]);
 	$download = get_option('zbp_download') == 'true' ? '<span> [<a href="'.$link.'" class="zbPlayer-download">Download</a>] </span>' : '';
 	$autostart = get_option('zbp_autostart') == 'true' ? 'yes' : 'no';
 	$width = get_option('zbp_width') > 0 ? intval(get_option('zbp_width')) : ZBPLAYER_DEFAULT_WIDTH;
   $ret = '<div class="zbPlayer">' . $name . $download . '<br/>'
    . '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
-		. ' flashvars="playerID=zbPlayer&amp;titles='.$name.'&amp;soundFile='.zbp_urlencode($link)
+		. ' flashvars="playerID=zbPlayer&amp;titles='.urlencode($name).'&amp;soundFile='.zbp_urlencode($link)
 		. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';
   return $ret;
 }
