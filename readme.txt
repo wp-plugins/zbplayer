@@ -3,8 +3,8 @@ Contributors: zubaka
 Donate link: http://gilevich.com/
 Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player
 Requires at least: 3.5
-Tested up to: 3.5
-Stable tag: 1.4
+Tested up to: 3.5.1
+Stable tag: 1.5
 License: Dual Licensed under the MIT and GPLv2 or later
 
 zbPlayer is a small and very easy plugin. It does one thing: capture mp3 links and insert a small flash player instead.
@@ -41,6 +41,9 @@ Yes, here no problems with cyrillic filenames.
 == Known Issues ==
 
 == Changelog ==
+
+= 1.5 =
+*    Replaced characters from '_' to ' ' in song names.
 
 = 1.4 =
 *    Fixed problem with player path if wordpress works not from default directory
