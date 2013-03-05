@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 1.5 March 2013
+ *  Release 1.6 March 2013
  */
 // zbPlayer Admin Page
 
@@ -30,6 +30,11 @@ if (isset($_POST['action'])) {
 		} else {
 			update_option('zbp_download','false');
 		}
+		if (isset($_POST['zbp_initialvolume'])) {
+			update_option('zbp_initialvolume',intval($_POST['zbp_initialvolume']));
+		} else {
+			update_option('zbp_initialvolume',ZBPLAYER_DEFAULT_INITIALVOLUME);
+		}
 		?><div class="updated"><p><strong>Options Updated</strong></p></div><?php
 	}
 }
@@ -50,6 +55,14 @@ if (isset($_POST['action'])) {
                     <label for="zbp_autostart">Autostart the player</label>
                     <br />
                     <span call="explanatory-text">Causes the player to start playin immediately on load if enabled.</span>                	
+                </td>
+            </tr>
+            <tr valign="top">
+            	<th scope="row">Initial volume</th>
+                <td>
+                	<input type="text" name="zbp_initialvolume" id="zbp_initialvolume" value="<?php echo get_option('zbp_initialvolume'); ?>" size="3" maxlength="3"/>
+                    <br />
+                    <span call="explanatory-text">Set here default value for volume of sound.</span>                	
                 </td>
             </tr>
             <tr valign="top">
