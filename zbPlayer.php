@@ -30,6 +30,7 @@ function zbp_init() {
 	if (get_option('zbp_width') <= 0) {
 		update_option('zbp_width',ZBPLAYER_DEFAULT_WIDTH);
 	}
+	zbp_load_language_file();
 }
 
 // Replace mp3 links in content with player 
@@ -108,4 +109,11 @@ function zbp_manage_page() {
 // Setup Function
 function zbp_setup($ZBPLAYER_VERSION) {
 	update_option('zbp_version',$ZBPLAYER_VERSION);
+}
+
+// Loads language files according to locale (only does this once per request)
+function zbp_load_language_file() {
+	if (function_exists('load_plugin_textdomain')) {
+		load_plugin_textdomain('zbplayer', false, dirname( plugin_basename(__FILE__) ) . '/languages');
+	}
 }
