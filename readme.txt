@@ -4,7 +4,7 @@ Donate link: http://gilevich.com/
 Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.6
+Stable tag: 1.7
 License: Dual Licensed under the MIT and GPLv2 or later
 
 zbPlayer is a small and very easy plugin. It does one thing: capture mp3 links and insert a small flash player instead.
@@ -41,6 +41,9 @@ Yes, here no problems with cyrillic filenames.
 == Known Issues ==
 
 == Changelog ==
+
+= 1.7 =
+*    Added localization for 'Download' link
 
 = 1.6 =
 *    Added initial volume control for player.
