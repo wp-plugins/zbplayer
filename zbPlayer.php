@@ -3,7 +3,7 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Player by outdated plugin <a href="http://wpaudioplayer.com/">WordPress Audio Player</a>.
-Version: 1.7
+Version: 1.7.1
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
@@ -14,10 +14,10 @@ Author URI: http://gilevich.com/
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 1.7, March 2013
+ *  Release 1.7.1, March 2013
  */
 
-define('ZBPLAYER_VERSION', "1.7");
+define('ZBPLAYER_VERSION', "1.7.1");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 
@@ -97,7 +97,7 @@ if (get_option('zbp_version') != ZBPLAYER_VERSION) zbp_setup(ZBPLAYER_VERSION);
 // Add the script
 function zbp_add_pages() {
 	// Add a new submenu under options
-	add_options_page('zbPlayer','zbPlayer',6,'zbplayer','zbp_manage_page');
+	add_options_page('zbPlayer','zbPlayer','manage_options','zbplayer','zbp_manage_page');
 }
 
 // Management Page
