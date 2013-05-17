@@ -42,6 +42,9 @@ Yes, here no problems with cyrillic filenames.
 
 == Changelog ==
 
+= 1.8 =
+*    Added option in admin to show/hide song name above player..
+
 = 1.7.1 =
 *    Fix for admin part in debug mode.
 

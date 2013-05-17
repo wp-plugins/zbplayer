@@ -20,6 +20,7 @@ Author URI: http://gilevich.com/
 define('ZBPLAYER_VERSION', "1.7.1");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
+define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
 
 // Hook to add scripts
 add_action('admin_menu','zbp_add_pages');
@@ -29,6 +30,9 @@ add_action("plugins_loaded", "zbp_init");
 function zbp_init() {
 	if (get_option('zbp_width') <= 0) {
 		update_option('zbp_width',ZBPLAYER_DEFAULT_WIDTH);
+	}
+	if (get_option('zbp_show_name') == '') {
+		update_option('zbp_show_name',ZBPLAYER_DEFAULT_SHOW_NAME);
 	}
 	zbp_load_language_file();
 }
@@ -54,8 +58,9 @@ function zbp_insert_player($matches)
 	$autostart = get_option('zbp_autostart') == 'true' ? 'yes' : 'no';
 	$initialvolume = intval(get_option('zbp_initialvolume')) ? intval(get_option('zbp_initialvolume')) : ZBPLAYER_DEFAULT_INITIALVOLUME;
 	$width = get_option('zbp_width') > 0 ? intval(get_option('zbp_width')) : ZBPLAYER_DEFAULT_WIDTH;
-  $ret = '<div class="zbPlayer">' . $name . $download . '<br/>'
-   . '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
+	$songname = get_option('zbp_show_name') == 'Y' ? $name . $download . '<br/>' : '';
+  $ret = '<div class="zbPlayer">' . $songname
+		. '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
 		. ' flashvars="playerID=zbPlayer&amp;initialvolume='.$initialvolume.'&amp;titles='.urlencode($name).'&amp;soundFile='.zbp_urlencode($link)
 		. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';
   return $ret;

@@ -25,6 +25,11 @@ if (isset($_POST['action'])) {
 		} else {
 			update_option('zbp_autostart','false');
 		}
+		if (isset($_POST['zbp_show_name'])) {
+			update_option('zbp_show_name','Y');
+		} else {
+			update_option('zbp_show_name','N');
+		}
 		if (isset($_POST['zbp_download'])) {
 			update_option('zbp_download','true');
 		} else {
@@ -66,6 +71,13 @@ if (isset($_POST['action'])) {
                 </td>
             </tr>
             <tr valign="top">
+            	<th scope="row">Show song name</th>
+                <td>
+                	<input type="checkbox" name="zbp_show_name" id="zbp_show_name" <?php if (get_option('zbp_show_name') == 'Y') echo "checked"; ?> onchange="zbpSwitchDownload()"/>
+                    <label for="zbp_show_name">Show song name above the player</label>
+                </td>
+            </tr>  
+            <tr valign="top" id="zbp_download_row" <?php if (get_option('zbp_show_name') != 'Y') echo "style='display: none;'"; ?>>
             	<th scope="row">Download Link</th>
                 <td>
                 	<input type="checkbox" name="zbp_download" id="zbp_download" <?php if (get_option('zbp_download') == 'true') echo "checked"; ?> />
@@ -91,5 +103,10 @@ if (isset($_POST['action'])) {
     </p>
     </form>
 </div>
-<?php
-?>
+<script>
+function zbpSwitchDownload()
+{
+  var newStatus = (document.getElementById('zbp_download_row').style.display == 'none') ? '' : 'none';
+  document.getElementById('zbp_download_row').style.display = newStatus;
+}
+</script>
