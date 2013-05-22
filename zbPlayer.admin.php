@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 1.8 May 2013
+ *  Release 1.8.1 May 2013
  */
 ?>
 <div class="wrap">
@@ -146,13 +146,19 @@ if (isset($_POST['action'])) {
 <div class="postbox" style="min-width:200px;">
 <h3><?php _e('Donation', 'zbplayer'); ?></h3>
 <div class="inside">
-<p><?php _e('If you liked this plugin, please make a donation via paypal! Any amount is welcome. Your support is much appreciated.', 'lightbox-gallery'); ?></p>
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="9VG752GTF8S54">
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG_global.gif" style="border: none;" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+<p><?php _e('If you liked this plugin, please make a donation via skrill! Any amount is welcome. Your support is much appreciated.', 'zbplayer'); ?></p>
+<form action="https://www.moneybookers.com/app/payment.pl" method="post" target="_blank">
+<input type="hidden" name="pay_to_email" value="vladimir@gilevich.com">
+<input type="hidden" name="return_url" value="http://gilevich.com/thankyou/">
+<input type="hidden" name="language" value="EN">
+<input type="hidden" name="currency" value="USD">
+<input type="hidden" name="detail1_description" value="Assistance in the development of plugin">
+<input type="hidden" name="detail1_text" value="zbPlayer plugin">
+<p><img src="http://gilevich.com/images/skrill-chkout_cc_110x52.gif" align="left" style="margin-right: 20px;"/>
+Amount: <input type="text" name="amount" value="5.00" size="10">$<br/>
+<input type="submit" alt="click to make a donation to zbPlayer plugin" class="button-primary" style="width: 160px" value="Donate"></p>
 </form>
+
 </div>
 </div>
 
