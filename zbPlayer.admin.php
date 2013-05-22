@@ -6,10 +6,21 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 1.7.1 March 2013
+ *  Release 1.8 May 2013
  */
-// zbPlayer Admin Page
+?>
+<div class="wrap">
+<div id="icon-plugins" class="icon32"><br/></div>
+<h2><?php _e('zbPlayer', 'zbplayer'); ?></h2>
+<br class="clear"/>
 
+
+<div id="poststuff" style="position: relative; margin-top:10px;">
+<div style="width:75%; float:left;">
+<div class="postbox">
+<h3><?php _e('zbPlayer Options', 'zbplayer'); ?></h3>
+<div class="inside">
+<?php
 // Business Logic
 if (isset($_POST['action'])) {
 	if (!isset($_POST['_wpnonce'])) die("There was a problem authenticating. Please log out and log back in");
@@ -56,8 +67,6 @@ if (isset($_POST['action'])) {
 
 
 ?>
-<div class="wrap">
-	<h2>zbPlayer Management Page</h2>
     <p>In most cases the way it's configured out of the box is just about right, but feel free to play with it.</p>
     <p>zbPlayer Version: <em><?php echo get_option('zbp_version'); ?></em></p>
     <form id="zbp_options" name="zbp_options" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
@@ -127,6 +136,28 @@ if (isset($_POST['action'])) {
     	<input type="submit" name="Submit" value="Save Changes" class="button-primary" />
     </p>
     </form>
+</div>
+</div>
+</div>
+
+
+<div style="width:24%; float:right;">
+
+<div class="postbox" style="min-width:200px;">
+<h3><?php _e('Donation', 'zbplayer'); ?></h3>
+<div class="inside">
+<p><?php _e('If you liked this plugin, please make a donation via paypal! Any amount is welcome. Your support is much appreciated.', 'lightbox-gallery'); ?></p>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="9VG752GTF8S54">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG_global.gif" style="border: none;" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+</div>
+</div>
+
+</div>
+
 </div>
 <script>
 function zbpSwitchDownload()
