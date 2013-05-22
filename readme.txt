@@ -43,7 +43,8 @@ Yes, here no problems with cyrillic filenames.
 == Changelog ==
 
 = 1.8 =
-*    Added option in admin to show/hide song name above player..
+*    Added option in admin to show/hide song name above player.
+*    Added "Multiplayer" option in admin to setup only one player on page with all mp3's
 
 = 1.7.1 =
 *    Fix for admin part in debug mode.

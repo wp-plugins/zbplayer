@@ -21,6 +21,7 @@ define('ZBPLAYER_VERSION', "1.7.1");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
+define('ZBPLAYER_DEFAULT_COLLECT_FIELD', "[zbplayer]");
 
 // Hook to add scripts
 add_action('admin_menu','zbp_add_pages');
@@ -34,6 +35,9 @@ function zbp_init() {
 	if (get_option('zbp_show_name') == '') {
 		update_option('zbp_show_name',ZBPLAYER_DEFAULT_SHOW_NAME);
 	}
+	if (get_option('zbp_collect_field') == '') {
+		update_option('zbp_collect_field',ZBPLAYER_DEFAULT_COLLECT_FIELD);
+	}
 	zbp_load_language_file();
 }
 
@@ -43,7 +47,30 @@ function zbp_content($content)
   // Replace mp3 links (don't do this in feeds and excerpts)
   if ( !is_feed() ) {
     $pattern = "/<a ([^=]+=['\"][^\"']+['\"] )*href=['\"](([^\"']+\.mp3))['\"]( [^=]+=['\"][^\"']+['\"])*>([^<]+)<\/a>/i";
-    $content = preg_replace_callback( $pattern, "zbp_insert_player", $content );
+		if (get_option('zbp_collect_mp3') == 'true') {
+			preg_match_all( $pattern, $content, $matches );
+			$titles = array();
+			$links = array();
+			if (count($matches) && isset($matches[3]) && count($matches[3])) {
+				foreach($matches[3] as $key => $link) {
+					$titles[] = urlencode( str_replace('_', '', $matches[5][$key]) );
+					$links[] = zbp_urlencode($link);
+				}
+			}
+			if (count($links)) {
+				$autostart = get_option('zbp_autostart') == 'true' ? 'yes' : 'no';
+				$initialvolume = intval(get_option('zbp_initialvolume')) ? intval(get_option('zbp_initialvolume')) : ZBPLAYER_DEFAULT_INITIALVOLUME;
+				$width = get_option('zbp_width') > 0 ? intval(get_option('zbp_width')) : ZBPLAYER_DEFAULT_WIDTH;
+				$player = '<div class="zbPlayer">'
+					. '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
+					. ' flashvars="playerID=zbPlayer&amp;initialvolume='.$initialvolume.'&amp;titles='.implode(',',$titles)
+					.'&amp;soundFile='.implode(',',$links)
+					. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';
+				$content = str_replace(get_option('zbp_collect_field'), $player, $content);
+			}
+		} else {
+			$content = preg_replace_callback( $pattern, "zbp_insert_player", $content );
+		}
   }
   return $content;
 }
