@@ -3,7 +3,7 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Player by outdated plugin <a href="http://wpaudioplayer.com/">WordPress Audio Player</a>.
-Version: 1.8.1
+Version: 1.8.2
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
@@ -14,13 +14,14 @@ Author URI: http://gilevich.com/
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 1.8.1, May 2013
+ *  Release 1.8.2, May 2013
  */
 
-define('ZBPLAYER_VERSION', "1.8.1");
+define('ZBPLAYER_VERSION', "1.8.2");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
+define('ZBPLAYER_DEFAULT_ANIMATION', 'true');
 define('ZBPLAYER_DEFAULT_COLLECT_FIELD', "[zbplayer]");
 
 // Hook to add scripts
@@ -34,6 +35,9 @@ function zbp_init() {
 	}
 	if (get_option('zbp_show_name') == '') {
 		update_option('zbp_show_name',ZBPLAYER_DEFAULT_SHOW_NAME);
+	}
+	if (get_option('zbp_animation') == '') {
+		update_option('zbp_animation',ZBPLAYER_DEFAULT_ANIMATION);
 	}
 	if (get_option('zbp_collect_field') == '') {
 		update_option('zbp_collect_field',ZBPLAYER_DEFAULT_COLLECT_FIELD);
@@ -59,11 +63,12 @@ function zbp_content($content)
 			}
 			if (count($links)) {
 				$autostart = get_option('zbp_autostart') == 'true' ? 'yes' : 'no';
+				$animation = get_option('zbp_animation') == 'true' ? 'yes' : 'no';
 				$initialvolume = intval(get_option('zbp_initialvolume')) ? intval(get_option('zbp_initialvolume')) : ZBPLAYER_DEFAULT_INITIALVOLUME;
 				$width = get_option('zbp_width') > 0 ? intval(get_option('zbp_width')) : ZBPLAYER_DEFAULT_WIDTH;
 				$player = '<div class="zbPlayer">'
 					. '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
-					. ' flashvars="playerID=zbPlayer&amp;initialvolume='.$initialvolume.'&amp;titles='.implode(',',$titles)
+					. ' flashvars="animation='.$animation.'&amp;playerID=zbPlayer&amp;initialvolume='.$initialvolume.'&amp;titles='.implode(',',$titles)
 					.'&amp;soundFile='.implode(',',$links)
 					. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';
 				$content = str_replace(get_option('zbp_collect_field'), $player, $content);
@@ -83,12 +88,13 @@ function zbp_insert_player($matches)
   $name = str_replace('_', ' ', $matches[5]);
 	$download = get_option('zbp_download') == 'true' ? '<span> [<a href="'.$link.'" class="zbPlayer-download">'.__("Download", 'zbplayer').'</a>] </span>' : '';
 	$autostart = get_option('zbp_autostart') == 'true' ? 'yes' : 'no';
+	$animation = get_option('zbp_animation') == 'true' ? 'yes' : 'no';
 	$initialvolume = intval(get_option('zbp_initialvolume')) ? intval(get_option('zbp_initialvolume')) : ZBPLAYER_DEFAULT_INITIALVOLUME;
 	$width = get_option('zbp_width') > 0 ? intval(get_option('zbp_width')) : ZBPLAYER_DEFAULT_WIDTH;
 	$songname = get_option('zbp_show_name') == 'Y' ? $name . $download . '<br/>' : '';
   $ret = '<div class="zbPlayer">' . $songname
 		. '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
-		. ' flashvars="playerID=zbPlayer&amp;initialvolume='.$initialvolume.'&amp;titles='.urlencode($name).'&amp;soundFile='.zbp_urlencode($link)
+		. ' flashvars="animation='.$animation.'&amp;playerID=zbPlayer&amp;initialvolume='.$initialvolume.'&amp;titles='.urlencode($name).'&amp;soundFile='.zbp_urlencode($link)
 		. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';
   return $ret;
 }

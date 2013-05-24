@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 1.8.1 May 2013
+ *  Release 1.8.2 May 2013
  */
 ?>
 <div class="wrap">
@@ -46,6 +46,11 @@ if (isset($_POST['action'])) {
 		} else {
 			update_option('zbp_download','false');
 		}
+		if (isset($_POST['zbp_animation'])) {
+			update_option('zbp_animation','true');
+		} else {
+			update_option('zbp_animation','false');
+		}
 		if (isset($_POST['zbp_collect_mp3'])) {
 			update_option('zbp_collect_mp3','true');
 		} else {
@@ -79,6 +84,13 @@ if (isset($_POST['action'])) {
                     <label for="zbp_autostart">Autostart the player</label>
                     <br />
                     <span call="explanatory-text">Causes the player to start playin immediately on load if enabled.</span>                	
+                </td>
+            </tr>
+            <tr valign="top">
+            	<th scope="row">Animation</th>
+                <td>
+                	<input type="checkbox" name="zbp_animation" id="zbp_animation" <?php if (get_option('zbp_animation') == 'true') echo "checked"; ?> />
+                    <label for="zbp_animation">If unchecked, player is always open</label>
                 </td>
             </tr>
             <tr valign="top">
