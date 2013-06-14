@@ -2,8 +2,8 @@
 /*
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
-Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Player by outdated plugin <a href="http://wpaudioplayer.com/">WordPress Audio Player</a>.
-Version: 1.8.2
+Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
+Version: 1.9
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
@@ -14,20 +14,23 @@ Author URI: http://gilevich.com/
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 1.8.2, May 2013
+ *  Release 1.9, June 2013
  */
 
-define('ZBPLAYER_VERSION', "1.8.2");
+define('ZBPLAYER_VERSION', "1.9");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
 define('ZBPLAYER_DEFAULT_ANIMATION', 'true');
 define('ZBPLAYER_DEFAULT_COLLECT_FIELD', "[zbplayer]");
+define('ZBPLAYER_SHARER_URL', "https://www.facebook.com/sharer/sharer.php?u=");
+define('ZBPLAYER_SHARE_SMALL', "small");
+define('ZBPLAYER_SHARE_INLINE', "inline");
 
 // Hook to add scripts
 add_action('admin_menu','zbp_add_pages');
 add_filter('the_content', 'zbp_content');
-add_action("plugins_loaded", "zbp_init");
+add_action('plugins_loaded', 'zbp_init');
 
 function zbp_init() {
 	if (get_option('zbp_width') <= 0) {
@@ -41,6 +44,9 @@ function zbp_init() {
 	}
 	if (get_option('zbp_collect_field') == '') {
 		update_option('zbp_collect_field',ZBPLAYER_DEFAULT_COLLECT_FIELD);
+	}
+	if (get_option('zbp_share') == '') {
+		update_option('zbp_share',ZBPLAYER_SHARE_INLINE);
 	}
 	zbp_load_language_file();
 }
@@ -75,6 +81,14 @@ function zbp_content($content)
 			}
 		} else {
 			$content = preg_replace_callback( $pattern, "zbp_insert_player", $content );
+			// add share popup
+			$content .= PHP_EOL . "<script>
+function zbpShare(url) {
+  var sharer = '".ZBPLAYER_SHARER_URL."'+url;
+  window.open(sharer, 'sharer', 'width=626,height=436');
+  return false;
+}
+</script>" . PHP_EOL;
 		}
   }
   return $content;
@@ -91,8 +105,20 @@ function zbp_insert_player($matches)
 	$animation = get_option('zbp_animation') == 'true' ? 'yes' : 'no';
 	$initialvolume = intval(get_option('zbp_initialvolume')) ? intval(get_option('zbp_initialvolume')) : ZBPLAYER_DEFAULT_INITIALVOLUME;
 	$width = get_option('zbp_width') > 0 ? intval(get_option('zbp_width')) : ZBPLAYER_DEFAULT_WIDTH;
-	$songname = get_option('zbp_show_name') == 'Y' ? $name . $download . '<br/>' : '';
+
+	// share functionality
+	if (get_option('zbp_show_share') == 'true') {
+		$shareUrl = urlencode('https://ssl.perfora.net/mp3.gilevich.com/share/link/?mp3='.zbp_urlencode($link).'&title='.urlencode($name));
+		$shareImg = plugin_dir_url(__FILE__).'images/fb-share.png';
+		$shareInline = get_option('zbp_share') == ZBPLAYER_SHARE_INLINE ? '<span> <a href="'.ZBPLAYER_SHARER_URL.$shareUrl.'" class="zbPlayer-share-inline" target="_blank" onClick="return zbpShare(\''.$shareUrl.'\')"><img src="'.$shareImg.'" style="height: 26px;"></a> </span>' : '';
+		$shareSmall = get_option('zbp_share') == ZBPLAYER_SHARE_SMALL ? '<span> <a href="'.ZBPLAYER_SHARER_URL.$shareUrl.'" class="zbPlayer-share-small" target="_blank" onClick="return zbpShare(\''.$shareUrl.'\')"><img src="'.$shareImg.'" style="height: 21px;margin-bottom: -5px;"></a> </span>' : '';
+	} else {
+		$shareInline = $shareSmall = '';
+	}
+
+	$songname = get_option('zbp_show_name') == 'Y' ? $name . $download . $shareSmall . '<br/>' : '';
   $ret = '<div class="zbPlayer">' . $songname
+		. $shareInline
 		. '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
 		. ' flashvars="animation='.$animation.'&amp;playerID=zbPlayer&amp;initialvolume='.$initialvolume.'&amp;titles='.urlencode($name).'&amp;soundFile='.zbp_urlencode($link)
 		. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';

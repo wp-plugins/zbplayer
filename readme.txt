@@ -1,17 +1,17 @@
 ===zbPlayer ===
 Contributors: zubaka
 Donate link: http://gilevich.com/
-Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player
+Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player, facebook share, share mp3
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.8.2
+Stable tag: 1.9
 License: Dual Licensed under the MIT and GPLv2 or later
 
 zbPlayer is a small and very easy plugin. It does one thing: capture mp3 links and insert a small flash player instead.
 
 == Description ==
 
-zbPlayer is a very easy audio plugin - you can select some options like: include Download link or no, enable autoplay or no and setup width of player. Other things will be done by zbPlayer plugun automatically. One nice feature - player support cyrillic filenames without problem.
+zbPlayer is a very easy audio plugin - you can select some options like: include Download link or no, enable autoplay or no and setup width of player. Other things will be done by zbPlayer plugun automatically. One nice feature - player support cyrillic filenames without problem. Also player can share your mp3 files on Facebook.
 
 == Installation ==
 
@@ -32,6 +32,10 @@ No, zbPlayer automatically converts any link to an mp3 file into player. So, if 
 
 Yes, here no problems with cyrillic filenames.
 
+= How can I tell my friends about lovely song? =
+
+You can use Facebook share button to add song on your timeline and play it on Facebook.
+
 == Screenshots ==
 
 1.  The minimized player.
@@ -41,6 +45,9 @@ Yes, here no problems with cyrillic filenames.
 == Known Issues ==
 
 == Changelog ==
+
+= 1.9 =
+*    Added Facebook share button functionality. Now you can share your mp3 files on Facebook and listen them on Facebook on your Timeline.
 
 = 1.8.2 =
 *    Added control for player animation to let possibility show full size of player at once.

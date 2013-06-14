@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 1.8.2 May 2013
+ *  Release 1.9 June 2013
  */
 ?>
 <div class="wrap">
@@ -66,11 +66,23 @@ if (isset($_POST['action'])) {
 		} else {
 			update_option('zbp_initialvolume',ZBPLAYER_DEFAULT_INITIALVOLUME);
 		}
+		if (isset($_POST['zbp_show_share'])) {
+			update_option('zbp_show_share','true');
+
+			if (isset($_POST['zbp_share']) && $_POST['zbp_share'] == ZBPLAYER_SHARE_SMALL) {
+				update_option('zbp_share',ZBPLAYER_SHARE_SMALL);
+			} else {
+				update_option('zbp_share',ZBPLAYER_SHARE_INLINE);
+			}
+		} else {
+			update_option('zbp_show_share','false');
+		}
 		?><div class="updated"><p><strong>Options Updated</strong></p></div><?php
 	}
 }
 
 
+$imgPath = plugin_dir_url(__FILE__) . '/images/';
 ?>
     <p>In most cases the way it's configured out of the box is just about right, but feel free to play with it.</p>
     <p>zbPlayer Version: <em><?php echo get_option('zbp_version'); ?></em></p>
@@ -116,6 +128,23 @@ if (isset($_POST['action'])) {
                     <br />
                     <span call="explanatory-text">Whether to include a link next to the flash player to download the file.</span>
                 </td>
+            <tr valign="top" id="zbp_show_share_row" <?php if (get_option('zbp_collect_mp3') == 'true') echo "style='display: none;'"; ?>>
+            	<th scope="row">Show Facebook Share Button</th>
+                <td>
+                	<input type="checkbox" name="zbp_show_share" id="zbp_show_share" <?php if (get_option('zbp_show_share') == 'true') echo "checked"; ?> onchange="zbpSwitchShare()"/>
+                    <label for="zbp_show_share">Possibility to share mp3 file on Facebook</label>
+                </td>
+            </tr>  
+            <tr valign="top" id="zbp_share_row" <?php if (get_option('zbp_show_share') != 'true' || get_option('zbp_collect_mp3') == 'true') echo "style='display: none;'"; ?>>
+            	<th scope="row"></th>
+                <td>
+                	<input type="radio" name="zbp_share" id="zbp_share_inline" <?php if (get_option('zbp_share') == ZBPLAYER_SHARE_INLINE) echo "checked"; ?> value="<?php echo ZBPLAYER_SHARE_INLINE?>"/>
+                    <label for="zbp_share_inline">Include before flash player<br/><img src="<?php echo $imgPath?>zbp_share_inline.png" style="margin-left: 10px;"></label>
+                    <br />
+                	<input type="radio" name="zbp_share" id="zbp_share_small" <?php if (get_option('zbp_share') == ZBPLAYER_SHARE_SMALL) echo "checked"; ?> value="<?php echo ZBPLAYER_SHARE_SMALL?>"/>
+                    <label for="zbp_share_small">Include right after song name<br/><img src="<?php echo $imgPath?>zbp_share_small.png" style="margin-left: 10px;"></label>
+                </td>
+            </tr>  
             </tr>  
             <tr valign="top">
             	<th scope="row">Multiplayer</th>
@@ -184,6 +213,12 @@ function zbpSwitchDownload()
   document.getElementById('zbp_download_row').style.display = newStatus;
 }
 
+function zbpSwitchShare()
+{
+  var newStatus = (document.getElementById('zbp_share_row').style.display == 'none') ? '' : 'none';
+  document.getElementById('zbp_share_row').style.display = newStatus;
+}
+
 function zbpSwitchCollectMp3()
 {
   var newStatus = (document.getElementById('zbp_collect_row').style.display == 'none') ? '' : 'none';
@@ -191,8 +226,12 @@ function zbpSwitchCollectMp3()
 
   nameStatus = newStatus == 'none' ? '' : 'none';
   document.getElementById('zbp_show_name_row').style.display = nameStatus;
+  document.getElementById('zbp_show_share_row').style.display = nameStatus;
 
   var newStatus = (nameStatus == '' && document.getElementById('zbp_show_name').checked) ? '' : 'none';
   document.getElementById('zbp_download_row').style.display = newStatus;
+
+  var newStatus = (nameStatus == '' && document.getElementById('zbp_show_share').checked) ? '' : 'none';
+  document.getElementById('zbp_share_row').style.display = newStatus;
 }
 </script>
