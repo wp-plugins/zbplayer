@@ -46,7 +46,7 @@ You can use Facebook share button to add song on your timeline and play it on Fa
 
 == Changelog ==
 
-= 1.9.1 =
+= 1.9.1/2 =
 *    Fixed song name views for characters like "-" and "&"
 
 = 1.9 =

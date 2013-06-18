@@ -3,7 +3,7 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 1.9.1
+Version: 1.9.2
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
@@ -14,7 +14,7 @@ Author URI: http://gilevich.com/
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 1.9.1, June 2013
+ *  Release 1.9.2, June 2013
  */
 
 define('ZBPLAYER_VERSION', "1.9");
@@ -102,6 +102,7 @@ function zbp_insert_player($matches)
   $name = str_replace('_', ' ', $matches[5]);
 	$titles = str_replace('&#8211;', '-', $name);
 	$titles = str_replace('&#038;', '&', $titles);
+	$titles = str_replace('&amp;', '&', $titles);
 	$download = get_option('zbp_download') == 'true' ? '<span> [<a href="'.$link.'" class="zbPlayer-download">'.__("Download", 'zbplayer').'</a>] </span>' : '';
 	$autostart = get_option('zbp_autostart') == 'true' ? 'yes' : 'no';
 	$animation = get_option('zbp_animation') == 'true' ? 'yes' : 'no';

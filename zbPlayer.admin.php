@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 1.9.1 June 2013
+ *  Release 1.9.2 June 2013
  */
 ?>
 <div class="wrap">
