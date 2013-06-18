@@ -4,7 +4,7 @@ Donate link: http://gilevich.com/
 Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player, facebook share, share mp3
 Requires at least: 3.5
 Tested up to: 3.5.1
-Stable tag: 1.9.2
+Stable tag: 1.9.3
 License: Dual Licensed under the MIT and GPLv2 or later
 
 zbPlayer is a small and very easy plugin. It does one thing: capture mp3 links and insert a small flash player instead.
@@ -46,7 +46,7 @@ You can use Facebook share button to add song on your timeline and play it on Fa
 
 == Changelog ==
 
-= 1.9.1/2 =
+= 1.9.1/2/3 =
 *    Fixed song name views for characters like "-" and "&"
 
 = 1.9 =
