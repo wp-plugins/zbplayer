@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 1.9 June 2013
+ *  Release 1.9.1 June 2013
  */
 ?>
 <div class="wrap">
@@ -129,7 +129,7 @@ $imgPath = plugin_dir_url(__FILE__) . '/images/';
                     <span call="explanatory-text">Whether to include a link next to the flash player to download the file.</span>
                 </td>
             <tr valign="top" id="zbp_show_share_row" <?php if (get_option('zbp_collect_mp3') == 'true') echo "style='display: none;'"; ?>>
-            	<th scope="row">Show Facebook Share Button</th>
+            	<th scope="row"><b>Show Facebook Share Button</b></th>
                 <td>
                 	<input type="checkbox" name="zbp_show_share" id="zbp_show_share" <?php if (get_option('zbp_show_share') == 'true') echo "checked"; ?> onchange="zbpSwitchShare()"/>
                     <label for="zbp_show_share">Possibility to share mp3 file on Facebook</label>
