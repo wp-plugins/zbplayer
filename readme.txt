@@ -1,10 +1,10 @@
 ===zbPlayer ===
 Contributors: zubaka
 Donate link: http://gilevich.com/
-Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player, facebook share, share mp3, m4a, m4b, mp4, m4a player, m4b player, mp4 player
+Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player, facebook share, share mp3, m4a, m4b, mp4, m4a player, m4b player, mp4 player, wav, wav player
 Requires at least: 3.5
 Tested up to: 3.5.2
-Stable tag: 1.9.4
+Stable tag: 2.0.0
 License: Dual Licensed under the MIT and GPLv2 or later
 
 zbPlayer is a small and very easy plugin. It does one thing: capture mp3 links and insert a small flash player instead.
@@ -26,7 +26,7 @@ That's it, you're done.
 
 = Do I need to do anything special in my posts? =
 
-No, zbPlayer automatically converts any link to an mp3 file into player. So, if you put in &lt;a href="audio_file.mp3"&gt;A Link&lt;/a&gt; zbPlayer will automatically add a flash player on page.
+No, zbPlayer automatically converts any link to an mp3/m4a/m4b/mp4/wav file into player. So, if you put in &lt;a href="audio_file.mp3"&gt;A Link&lt;/a&gt; zbPlayer will automatically add a flash player on page.
 
 = Does player support cyrillic names for mp3 files? =
 
@@ -36,6 +36,7 @@ Yes, here no problems with cyrillic filenames.
 
 You can use Facebook share button to add song on your timeline and play it on Facebook.
 
+
 == Screenshots ==
 
 1.  The minimized player.
@@ -44,7 +45,16 @@ You can use Facebook share button to add song on your timeline and play it on Fa
 
 == Known Issues ==
 
+= Sometime my .m4a fiels doesn't play. Why is it? =
+
+Unfortunately, some of .m4a files has nuances and cannot play by player. We can't fix that. Use .mp3 files - they works always.
+
 == Changelog ==
+
+= 2.0.0 =
+*    Added controls for player colors
+*    Changed descritpion and known bugs
+*    Added possibility to play audio format like .wav
 
 = 1.9.4 =
 *    Added possibility to play audio formats like m4a, m4b and mp4

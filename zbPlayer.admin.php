@@ -6,8 +6,13 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 1.9.4 June 2013
+ *  Release 2.0.0 July 2013
  */
+?>
+<?php // connect wordpress color picker
+WP_Enqueue_Script('farbtastic');
+WP_Enqueue_Style('farbtastic');
+WP_Enqueue_Script('zbplayer-options', get_bloginfo('wpurl').'/'.Str_Replace("\\", '/', SubStr(RealPath(DirName(__FILE__)), Strlen(ABSPATH))) . '/js/zbPlayerColors.js');
 ?>
 <div class="wrap">
 <div id="icon-plugins" class="icon32"><br/></div>
@@ -78,13 +83,30 @@ if (isset($_POST['action'])) {
 			update_option('zbp_show_share','false');
 		}
 		?><div class="updated"><p><strong>Options Updated</strong></p></div><?php
+	} else if ($_POST['action'] == 'updateColor') {
+		update_option('zbp_bg_color',$_POST['zbp_bg_color']);
+		update_option('zbp_bg_left_color',$_POST['zbp_bg_left_color']);
+		update_option('zbp_icon_left_color',$_POST['zbp_icon_left_color']);
+		update_option('zbp_voltrack_color',$_POST['zbp_voltrack_color']);
+		update_option('zbp_volslider_color',$_POST['zbp_volslider_color']);
+		update_option('zbp_bg_right_color',$_POST['zbp_bg_right_color']);
+		update_option('zbp_bg_right_hover_color',$_POST['zbp_bg_right_hover_color']);
+		update_option('zbp_icon_right_color',$_POST['zbp_icon_right_color']);
+		update_option('zbp_icon_right_hover_color',$_POST['zbp_icon_right_hover_color']);
+		update_option('zbp_loader_color',$_POST['zbp_loader_color']);
+		update_option('zbp_track_color',$_POST['zbp_track_color']);
+		update_option('zbp_tracker_color',$_POST['zbp_tracker_color']);
+		update_option('zbp_border_color',$_POST['zbp_border_color']);
+		update_option('zbp_skip_color',$_POST['zbp_skip_color']);
+		update_option('zbp_text_color',$_POST['zbp_text_color']);
+		?><div class="updated"><p><strong>Colors Updated</strong></p></div><?php
 	}
 }
 
 
 $imgPath = plugin_dir_url(__FILE__) . '/images/';
 ?>
-    <p>In most cases the way it's configured out of the box is just about right, but feel free to play with it.</p>
+    <p>In most cases the way it is configured out of the box is just about right, but feel free to play with it.</p>
     <p>zbPlayer Version: <em><?php echo get_option('zbp_version'); ?></em></p>
     <form id="zbp_options" name="zbp_options" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
     <table class="form-table">
@@ -199,9 +221,118 @@ $imgPath = plugin_dir_url(__FILE__) . '/images/';
 Amount: <input type="text" name="amount" value="5.00" size="10">$<br/>
 <input type="submit" alt="click to make a donation to zbPlayer plugin" class="button-primary" style="width: 160px" value="Donate"></p>
 </form>
+</div>
+</div>
 
+
+<div class="postbox" style="min-width:200px;">
+<h3><?php _e('Colour scheme options', 'zbplayer'); ?></h3>
+<div class="inside">
+<p><?php _e('All colour codes must be 6-digit HEX codes without ‘#’ or ’0x’ in front.', 'zbplayer'); ?></p>
+<form id="zbp_color" name="zbp_color" action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="post">
+<table class="form-table">
+<?php 
+	 foreach(array(
+						 array( 'title' => __('Background', 'zbplayer'),
+										'name' => 'zbp_bg_color',
+										'default' => ZBPLAYER_COLOR_BG,
+										'desc' => __('Background color inside the player. The environment of the player is always transparent.', 'zbplayer') ),
+						 
+						 array( 'title' => __('Background left', 'zbplayer'),
+										'name' => 'zbp_bg_left_color',
+										'default' => ZBPLAYER_COLOR_LEFTBG,
+										'desc' => __('Background color of the speaker icon background/volume control.', 'zbplayer') ),
+
+						 array( 'title' => __('Icon left', 'zbplayer'),
+										'name' => 'zbp_icon_left_color',
+										'default' => ZBPLAYER_COLOR_LEFTICON,
+										'desc' => __('Color of the speaker icon on the left hand.', 'zbplayer') ),
+
+						 array( 'title' => __('Volume track', 'zbplayer'),
+										'name' => 'zbp_voltrack_color',
+										'default' => ZBPLAYER_COLOR_VOLTRACK,
+										'desc' => __('Color of the volume track on the left hand.', 'zbplayer') ),
+
+						 array( 'title' => __('Volume slider', 'zbplayer'),
+										'name' => 'zbp_volslider_color',
+										'default' => ZBPLAYER_COLOR_VOLSLIDER,
+										'desc' => __('Color of the volume slider on the left hand.', 'zbplayer') ),
+
+						 array( 'title' => __('Background right', 'zbplayer'),
+										'name' => 'zbp_bg_right_color',
+										'default' => ZBPLAYER_COLOR_RIGHTBG,
+										'desc' => __('Background color of the play/pause button.', 'zbplayer') ),
+
+						 array( 'title' => __('Background right (hover)', 'zbplayer'),
+										'name' => 'zbp_bg_right_hover_color',
+										'default' => ZBPLAYER_COLOR_RIGHTBGHOVER,
+										'desc' => __('Color of the right background while hovering it with the mouse.', 'zbplayer') ),
+
+						 array( 'title' => __('Icon right', 'zbplayer'),
+										'name' => 'zbp_icon_right_color',
+										'default' => ZBPLAYER_COLOR_RIGHTICON,
+										'desc' => __('Color of the play/pause icon.', 'zbplayer') ),
+
+						 array( 'title' => __('Icon right (hover)', 'zbplayer'),
+										'name' => 'zbp_icon_right_hover_color',
+										'default' => ZBPLAYER_COLOR_RIGHTICONHOVER,
+										'desc' => __('Color of the right icon while hovering it with the mouse.', 'zbplayer') ),
+
+						 array( 'title' => __('Loading bar', 'zbplayer'),
+										'name' => 'zbp_loader_color',
+										'default' => ZBPLAYER_COLOR_LOADER,
+										'desc' => __('Color of the loading bar.', 'zbplayer') ),
+
+						 array( 'title' => __('Track bar', 'zbplayer'),
+										'name' => 'zbp_track_color',
+										'default' => ZBPLAYER_COLOR_TRACK,
+										'desc' => __('Color of the track bar.', 'zbplayer') ),
+
+						 array( 'title' => __('Tracker', 'zbplayer'),
+										'name' => 'zbp_tracker_color',
+										'default' => ZBPLAYER_COLOR_TRACKER,
+										'desc' => __('Color of the progress track (tracker).', 'zbplayer') ),
+
+						 array( 'title' => __('Track bar border', 'zbplayer'),
+										'name' => 'zbp_border_color',
+										'default' => ZBPLAYER_COLOR_BORDER,
+										'desc' => __('Color of the border surrounding the track bar.', 'zbplayer') ),
+
+						 array( 'title' => __('Skip', 'zbplayer'),
+										'name' => 'zbp_skip_color',
+										'default' => ZBPLAYER_COLOR_SKIP,
+										'desc' => __('Previous/Next skip buttons.', 'zbplayer') ),
+
+						 array( 'title' => __('Text', 'zbplayer'),
+										'name' => 'zbp_text_color',
+										'default' => ZBPLAYER_COLOR_TEXT,
+										'desc' => __('Color of the text in the middle area.', 'zbplayer') )
+					 ) as $color) : ?>
+<tr valign="top">
+  <th scope="row"><?php echo $color['title'] ?></th>
+  <td>
+    <input type="text" name="<?php echo $color['name'] ?>" value="<?php echo get_option($color['name'], $color['default']) ?>" class="color" /><br />
+    <div class="colorpicker"></div>
+    <small><?php echo $color['desc'] ?></small>
+  </td>
+</tr>
+<?php endforeach; ?>
+<tr valign="top">
+  <th scope="row">&nbsp;</th>
+  <td>
+<p class="submit">
+ 	<input type="hidden" name="action" value="updateColor" />
+     <?php wp_nonce_field('zbp-update_options'); ?>
+ 	<input type="submit" name="Submit" value="Save Changes" class="button-primary" />
+</p>
+  </td>
+</tr>
+</table>
+</form>
 </div>
 </div>
+
+
 
 </div>
 
