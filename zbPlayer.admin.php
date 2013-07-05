@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 2.0.0 July 2013
+ *  Release 2.0.1 July 2013
  */
 ?>
 <?php // connect wordpress color picker
@@ -50,6 +50,11 @@ if (isset($_POST['action'])) {
 			update_option('zbp_download','true');
 		} else {
 			update_option('zbp_download','false');
+		}
+		if (isset($_POST['zbp_id3'])) {
+			update_option('zbp_id3','true');
+		} else {
+			update_option('zbp_id3','false');
 		}
 		if (isset($_POST['zbp_animation'])) {
 			update_option('zbp_animation','true');
@@ -150,6 +155,16 @@ $imgPath = plugin_dir_url(__FILE__) . '/images/';
                     <br />
                     <span call="explanatory-text">Whether to include a link next to the flash player to download the file.</span>
                 </td>
+            </tr>
+            <tr valign="top" id="zbp_id3_row" <?php if (get_option('zbp_show_name') != 'Y' || get_option('zbp_collect_mp3') == 'true') echo "style='display: none;'"; ?>>
+            	<th scope="row"></th>
+                <td>
+                	<input type="checkbox" name="zbp_id3" id="zbp_id3" <?php if (get_option('zbp_id3') == 'true') echo "checked"; ?> />
+                    <label for="zbp_id3">Use ID3 information from file</label>
+                    <br />
+                    <span call="explanatory-text">In that case player will always try user ID3 info from file instead link name.</span>
+                </td>
+            </tr>
             <tr valign="top" id="zbp_show_share_row" <?php if (get_option('zbp_collect_mp3') == 'true') echo "style='display: none;'"; ?>>
             	<th scope="row"><b>Show Facebook Share Button</b></th>
                 <td>
@@ -342,6 +357,7 @@ function zbpSwitchDownload()
 {
   var newStatus = (document.getElementById('zbp_download_row').style.display == 'none') ? '' : 'none';
   document.getElementById('zbp_download_row').style.display = newStatus;
+  document.getElementById('zbp_id3_row').style.display = newStatus;
 }
 
 function zbpSwitchShare()
@@ -361,6 +377,7 @@ function zbpSwitchCollectMp3()
 
   var newStatus = (nameStatus == '' && document.getElementById('zbp_show_name').checked) ? '' : 'none';
   document.getElementById('zbp_download_row').style.display = newStatus;
+  document.getElementById('zbp_id3_row').style.display = newStatus;
 
   var newStatus = (nameStatus == '' && document.getElementById('zbp_show_share').checked) ? '' : 'none';
   document.getElementById('zbp_share_row').style.display = newStatus;

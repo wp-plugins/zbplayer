@@ -3,7 +3,7 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 2.0.0
+Version: 2.0.1
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
@@ -14,10 +14,10 @@ Author URI: http://gilevich.com/
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 2.0.0, July 2013
+ *  Release 2.0.1, July 2013
  */
 
-define('ZBPLAYER_VERSION', "2.0.0");
+define('ZBPLAYER_VERSION', "2.0.1");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
@@ -105,10 +105,11 @@ function zbp_content($content)
 				$animation = get_option('zbp_animation') == 'true' ? 'yes' : 'no';
 				$initialvolume = intval(get_option('zbp_initialvolume')) ? intval(get_option('zbp_initialvolume')) : ZBPLAYER_DEFAULT_INITIALVOLUME;
 				$width = get_option('zbp_width') > 0 ? intval(get_option('zbp_width')) : ZBPLAYER_DEFAULT_WIDTH;
+				$titles = (get_option('zbp_id3') == 'true') ? '' : '&amp;titles='.implode(',',$titles);
 				$player = '<div class="zbPlayer">'
 					. '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
 					. ' flashvars="animation='.$animation.'&amp;playerID=zbPlayer&amp;initialvolume='.$initialvolume . zbp_get_color_srt()
-					. '&amp;titles='.implode(',',$titles)
+					. $titles
 					. '&amp;soundFile='.implode(',',$links)
 					. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';
 				$content = str_replace(get_option('zbp_collect_field'), $player, $content);
@@ -155,11 +156,13 @@ function zbp_insert_player($matches)
 	}
 
 	$songname = get_option('zbp_show_name') == 'Y' ? $name . $download . $shareSmall . '<br/>' : '';
+	$titles = (get_option('zbp_id3') == 'true') ? '' : '&amp;titles='.urlencode($titles);
+
   $ret = '<div class="zbPlayer">' . $songname
 		. $shareInline
 		. '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
 		. ' flashvars="animation='.$animation.'&amp;playerID=zbPlayer&amp;initialvolume='.$initialvolume . zbp_get_color_srt()
-		. '&amp;titles='.urlencode($titles).'&amp;soundFile='.zbp_urlencode($link)
+		. $titles.'&amp;soundFile='.zbp_urlencode($link)
 		. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';
   return $ret;
 }
