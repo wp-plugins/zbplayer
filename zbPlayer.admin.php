@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 2.0.1 July 2013
+ *  Release 2.0.2 July 2013
  */
 ?>
 <?php // connect wordpress color picker
@@ -140,6 +140,15 @@ $imgPath = plugin_dir_url(__FILE__) . '/images/';
                     <span call="explanatory-text">Set here default value for volume of sound.</span>                	
                 </td>
             </tr>
+            <tr valign="top" id="zbp_id3_row">
+            	<th scope="row"></th>
+                <td>
+                	<input type="checkbox" name="zbp_id3" id="zbp_id3" <?php if (get_option('zbp_id3') == 'true') echo "checked"; ?> />
+                    <label for="zbp_id3">Use ID3 information from file</label>
+                    <br />
+                    <span call="explanatory-text">In that case player will always try user ID3 info from file instead link name.</span>
+                </td>
+            </tr>
             <tr valign="top" id="zbp_show_name_row" <?php if (get_option('zbp_collect_mp3') == 'true') echo "style='display: none;'"; ?>>
             	<th scope="row">Show song name</th>
                 <td>
@@ -154,15 +163,6 @@ $imgPath = plugin_dir_url(__FILE__) . '/images/';
                     <label for="zbp_download">Include a static download link</label>
                     <br />
                     <span call="explanatory-text">Whether to include a link next to the flash player to download the file.</span>
-                </td>
-            </tr>
-            <tr valign="top" id="zbp_id3_row" <?php if (get_option('zbp_show_name') != 'Y' || get_option('zbp_collect_mp3') == 'true') echo "style='display: none;'"; ?>>
-            	<th scope="row"></th>
-                <td>
-                	<input type="checkbox" name="zbp_id3" id="zbp_id3" <?php if (get_option('zbp_id3') == 'true') echo "checked"; ?> />
-                    <label for="zbp_id3">Use ID3 information from file</label>
-                    <br />
-                    <span call="explanatory-text">In that case player will always try user ID3 info from file instead link name.</span>
                 </td>
             </tr>
             <tr valign="top" id="zbp_show_share_row" <?php if (get_option('zbp_collect_mp3') == 'true') echo "style='display: none;'"; ?>>
@@ -357,7 +357,6 @@ function zbpSwitchDownload()
 {
   var newStatus = (document.getElementById('zbp_download_row').style.display == 'none') ? '' : 'none';
   document.getElementById('zbp_download_row').style.display = newStatus;
-  document.getElementById('zbp_id3_row').style.display = newStatus;
 }
 
 function zbpSwitchShare()
@@ -377,7 +376,6 @@ function zbpSwitchCollectMp3()
 
   var newStatus = (nameStatus == '' && document.getElementById('zbp_show_name').checked) ? '' : 'none';
   document.getElementById('zbp_download_row').style.display = newStatus;
-  document.getElementById('zbp_id3_row').style.display = newStatus;
 
   var newStatus = (nameStatus == '' && document.getElementById('zbp_show_share').checked) ? '' : 'none';
   document.getElementById('zbp_share_row').style.display = newStatus;
