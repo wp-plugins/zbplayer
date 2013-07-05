@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 2.0.2 July 2013
+ *  Release 2.0.3 July 2013
  */
 ?>
 <?php // connect wordpress color picker
@@ -141,7 +141,7 @@ $imgPath = plugin_dir_url(__FILE__) . '/images/';
                 </td>
             </tr>
             <tr valign="top" id="zbp_id3_row">
-            	<th scope="row"></th>
+            	<th scope="row">ID3 tags</th>
                 <td>
                 	<input type="checkbox" name="zbp_id3" id="zbp_id3" <?php if (get_option('zbp_id3') == 'true') echo "checked"; ?> />
                     <label for="zbp_id3">Use ID3 information from file</label>

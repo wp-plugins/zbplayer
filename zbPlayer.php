@@ -3,7 +3,7 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 2.0.2
+Version: 2.0.3
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
@@ -14,10 +14,10 @@ Author URI: http://gilevich.com/
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 2.0.2, July 2013
+ *  Release 2.0.3, July 2013
  */
 
-define('ZBPLAYER_VERSION', "2.0.2");
+define('ZBPLAYER_VERSION', "2.0.3");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
@@ -95,8 +95,10 @@ function zbp_content($content)
 			$titles = array();
 			$links = array();
 			if (count($matches) && isset($matches[3]) && count($matches[3])) {
+				$patternTitle = '/^<a.*?data-title=(["\'])(.*?)\1.*$/';
 				foreach($matches[3] as $key => $link) {
-					$titles[] = urlencode( str_replace('_', '', $matches[6][$key]) );
+					preg_match_all( $patternTitle, $matches[0][$key], $matchesTitle );
+					$titles[] = isset($matchesTitle[2][0]) ? $matchesTitle[2][0] : urlencode( str_replace('_', '', $matches[6][$key]) );
 					$links[] = zbp_urlencode($link);
 				}
 			}
