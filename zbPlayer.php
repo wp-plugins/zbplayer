@@ -3,7 +3,7 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 2.0.3
+Version: 2.0.4
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
@@ -14,10 +14,10 @@ Author URI: http://gilevich.com/
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 2.0.3, July 2013
+ *  Release 2.0.4, July 2013
  */
 
-define('ZBPLAYER_VERSION', "2.0.3");
+define('ZBPLAYER_VERSION', "2.0.4");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
@@ -141,7 +141,11 @@ function zbp_insert_player($matches)
 	$titles = str_replace('&#8212;', '-', $name);
 	$titles = str_replace('&#038;', '&', $titles);
 	$titles = str_replace('&amp;', '&', $titles);
-	$download = get_option('zbp_download') == 'true' ? '<span> [<a href="'.$link.'" class="zbPlayer-download">'.__("Download", 'zbplayer').'</a>] </span>' : '';
+	if (get_option('zbp_download') == 'true') {
+		$linkInfo = zbp_mb_pathinfo($link);
+		$downloadName = isset($linkInfo['basename']) && $linkInfo['basename'] ? $linkInfo['basename'] : 'song.mp3';
+	} 
+	$download = get_option('zbp_download') == 'true' ? '<span> [<a href="'.$link.'" class="zbPlayer-download" download="'.$downloadName.'">'.__("Download", 'zbplayer').'</a>] </span>' : '';
 	$autostart = get_option('zbp_autostart') == 'true' ? 'yes' : 'no';
 	$animation = get_option('zbp_animation') == 'true' ? 'yes' : 'no';
 	$initialvolume = intval(get_option('zbp_initialvolume')) ? intval(get_option('zbp_initialvolume')) : ZBPLAYER_DEFAULT_INITIALVOLUME;

@@ -4,7 +4,7 @@ Donate link: http://gilevich.com/
 Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player, facebook share, share mp3, m4a, m4b, mp4, m4a player, m4b player, mp4 player, wav, wav player
 Requires at least: 3.5
 Tested up to: 3.5.2
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: Dual Licensed under the MIT and GPLv2 or later
 
 zbPlayer is a small and very easy plugin. It does one thing: capture mp3 links and insert a small flash player instead.
@@ -51,8 +51,11 @@ Unfortunately, some of .m4a files has nuances and cannot play by player. We can'
 
 == Changelog ==
 
+= 2.0.4 =
+*    Added HTML5 tag 'download' for download link to let browser know that this link should be downloaded(not played)
+
 = 2.0.3 =
-*    Added possibility set custom sont title via "data-title" tags. For example &lt;a data-title="Custom title"&gt;Standard title&lt;/a&gt;
+*    Added possibility set custom song title via "data-title" tags. For example &lt;a data-title="Custom title"&gt;Standard title&lt;/a&gt;
 
 = 2.0.2 =
 *    Moved control for ID3 tags to gobal menu 
