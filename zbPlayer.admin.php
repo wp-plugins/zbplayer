@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 2.0.4 July 2013
+ *  Release 2.0.5 July 2013
  */
 ?>
 <?php // connect wordpress color picker
@@ -40,6 +40,11 @@ if (isset($_POST['action'])) {
 			update_option('zbp_autostart','true');
 		} else {
 			update_option('zbp_autostart','false');
+		}
+		if (isset($_POST['zbp_loop'])) {
+			update_option('zbp_loop','true');
+		} else {
+			update_option('zbp_loop','false');
 		}
 		if (isset($_POST['zbp_show_name'])) {
 			update_option('zbp_show_name','Y');
@@ -123,6 +128,13 @@ $imgPath = plugin_dir_url(__FILE__) . '/images/';
                     <label for="zbp_autostart">Autostart the player</label>
                     <br />
                     <span call="explanatory-text">Causes the player to start playin immediately on load if enabled.</span>                	
+                </td>
+            </tr>
+            <tr valign="top">
+            	<th scope="row">Loop</th>
+                <td>
+                	<input type="checkbox" name="zbp_loop" id="zbp_loop" <?php if (get_option('zbp_loop') == 'true') echo "checked"; ?> />
+                    <label for="zbp_loop">If checked, player will play in loops</label>
                 </td>
             </tr>
             <tr valign="top">
