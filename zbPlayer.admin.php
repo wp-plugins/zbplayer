@@ -1,12 +1,12 @@
 <?php
 /*
  *	zbPlayer Wordpress Plugin
- *	(c) 2013 Vladimir Gilevich
+ *	(c) 2013-2014 Vladimir Gilevich
  *	Dual Licensed under the MIT and GPL licenses
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 2.0.5 September 2013
+ *  Release 2.0.6 February 2014
  */
 ?>
 <?php // connect wordpress color picker
@@ -21,7 +21,7 @@ WP_Enqueue_Script('zbplayer-options', get_bloginfo('wpurl').'/'.Str_Replace("\\"
 
 
 <div id="poststuff" style="position: relative; margin-top:10px;">
-<div style="width:75%; float:left;">
+<div style="width:65%; float:left;">
 <div class="postbox">
 <h3><?php _e('zbPlayer Options', 'zbplayer'); ?></h3>
 <div class="inside">
@@ -231,23 +231,22 @@ $imgPath = plugin_dir_url(__FILE__) . '/images/';
 </div>
 
 
-<div style="width:24%; float:right;">
+<div style="width:34%; float:right;">
 
-<div class="postbox" style="min-width:200px;">
-<h3><?php _e('Donation', 'zbplayer'); ?></h3>
-<div class="inside">
-<p><?php _e('If you liked this plugin, please make a donation via skrill! Any amount is welcome. Your support is much appreciated.', 'zbplayer'); ?></p>
-<form action="https://www.moneybookers.com/app/payment.pl" method="post" target="_blank">
-<input type="hidden" name="pay_to_email" value="vladimir@gilevich.com">
-<input type="hidden" name="return_url" value="http://gilevich.com/thankyou/">
-<input type="hidden" name="language" value="EN">
-<input type="hidden" name="currency" value="USD">
-<input type="hidden" name="detail1_description" value="Assistance in the development of plugin">
-<input type="hidden" name="detail1_text" value="zbPlayer plugin">
-<p><img src="http://gilevich.com/images/skrill-chkout_cc_110x52.gif" align="left" style="margin-right: 20px;"/>
-Amount: <input type="text" name="amount" value="5.00" size="10">$<br/>
-<input type="submit" alt="click to make a donation to zbPlayer plugin" class="button-primary" style="width: 160px" value="Donate"></p>
-</form>
+<div class="postbox" style="min-width:200px; padding-bottom: 0px;">
+<h3><?php _e('Our ads', 'zbplayer'); ?></h3>
+<div class="inside" style="padding-bottom: 0px;">
+<center>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- music-publisher-lr -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:336px;height:280px"
+     data-ad-client="ca-pub-3706080085678049"
+     data-ad-slot="9238930360"></ins>
+<script>
+	(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center>
 </div>
 </div>
 

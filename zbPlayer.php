@@ -3,27 +3,28 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 2.0.5
+Version: 2.0.6
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
 /*
  *	zbPlayer Wordpress Plugin
- *	(c) 2013 Vladimir Gilevich
+ *	(c) 2013-2014 Vladimir Gilevich
  *	Dual Licensed under the MIT and GPL licenses
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 2.0.5, September 2013
+ *  Release 2.0.6, February 2014
  */
 
-define('ZBPLAYER_VERSION', "2.0.5");
+define('ZBPLAYER_VERSION', "2.0.6");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
 define('ZBPLAYER_DEFAULT_ANIMATION', 'true');
 define('ZBPLAYER_DEFAULT_COLLECT_FIELD', "[zbplayer]");
 define('ZBPLAYER_SHARER_URL', "https://www.facebook.com/sharer/sharer.php?u=");
+define('ZBPLAYER_OGTAGS_URL', "https://apps.gilevich.com/zbplayer/share/link/");
 define('ZBPLAYER_SHARE_SMALL', "small");
 define('ZBPLAYER_SHARE_INLINE', "inline");
 
@@ -155,10 +156,10 @@ function zbp_insert_player($matches)
 
 	// share functionality
 	if (get_option('zbp_show_share') == 'true') {
-		$shareUrl = urlencode('https://ssl.perfora.net/mp3.gilevich.com/share/link/?mp3='.zbp_urlencode($link).'&title='.urlencode($name));
+		$shareUrl = ZBPLAYER_OGTAGS_URL . '?mp3='.zbp_urlencode($link);
 		$shareImg = plugin_dir_url(__FILE__).'images/fb-share.png';
-		$shareInline = get_option('zbp_share') == ZBPLAYER_SHARE_INLINE ? '<span> <a href="'.ZBPLAYER_SHARER_URL.$shareUrl.'" class="zbPlayer-share-inline" target="_blank" onClick="return zbpShare(\''.$shareUrl.'\')"><img src="'.$shareImg.'" style="height: 26px;"></a> </span>' : '';
-		$shareSmall = get_option('zbp_share') == ZBPLAYER_SHARE_SMALL ? '<span> <a href="'.ZBPLAYER_SHARER_URL.$shareUrl.'" class="zbPlayer-share-small" target="_blank" onClick="return zbpShare(\''.$shareUrl.'\')"><img src="'.$shareImg.'" style="height: 21px;margin-bottom: -5px;"></a> </span>' : '';
+		$shareInline = get_option('zbp_share') == ZBPLAYER_SHARE_INLINE ? '<span> <a href="'.ZBPLAYER_SHARER_URL.$shareUrl.'" class="zbPlayer-share-inline" target="_blank" onClick="return zbpShare(\''.$shareUrl.'\')" rel="nofollow"><img src="'.$shareImg.'" style="height: 26px;"></a> </span>' : '';
+		$shareSmall = get_option('zbp_share') == ZBPLAYER_SHARE_SMALL ? '<span> <a href="'.ZBPLAYER_SHARER_URL.$shareUrl.'" class="zbPlayer-share-small" target="_blank" onClick="return zbpShare(\''.$shareUrl.'\')" rel="nofollow"><img src="'.$shareImg.'" style="height: 21px;margin-bottom: -5px;"></a> </span>' : '';
 	} else {
 		$shareInline = $shareSmall = '';
 	}
