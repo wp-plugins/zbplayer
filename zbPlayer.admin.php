@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 2.0.6 February 2014
+ *  Release 2.0.7 February 2014
  */
 ?>
 <?php // connect wordpress color picker
@@ -164,12 +164,12 @@ $imgPath = plugin_dir_url(__FILE__) . '/images/';
             <tr valign="top" id="zbp_show_name_row" <?php if (get_option('zbp_collect_mp3') == 'true') echo "style='display: none;'"; ?>>
             	<th scope="row">Show song name</th>
                 <td>
-                	<input type="checkbox" name="zbp_show_name" id="zbp_show_name" <?php if (get_option('zbp_show_name') == 'Y') echo "checked"; ?> onchange="zbpSwitchDownload()"/>
+                	<input type="checkbox" name="zbp_show_name" id="zbp_show_name" <?php if (get_option('zbp_show_name') == 'Y') echo "checked";?>/>
                     <label for="zbp_show_name">Show song name above the player</label>
                 </td>
             </tr>  
-            <tr valign="top" id="zbp_download_row" <?php if (get_option('zbp_show_name') != 'Y' || get_option('zbp_collect_mp3') == 'true') echo "style='display: none;'"; ?>>
-            	<th scope="row"></th>
+            <tr valign="top" id="zbp_download_row">
+            	<th scope="row">Download link</th>
                 <td>
                 	<input type="checkbox" name="zbp_download" id="zbp_download" <?php if (get_option('zbp_download') == 'true') echo "checked"; ?> />
                     <label for="zbp_download">Include a static download link</label>
@@ -364,12 +364,6 @@ $imgPath = plugin_dir_url(__FILE__) . '/images/';
 
 </div>
 <script>
-function zbpSwitchDownload()
-{
-  var newStatus = (document.getElementById('zbp_download_row').style.display == 'none') ? '' : 'none';
-  document.getElementById('zbp_download_row').style.display = newStatus;
-}
-
 function zbpSwitchShare()
 {
   var newStatus = (document.getElementById('zbp_share_row').style.display == 'none') ? '' : 'none';

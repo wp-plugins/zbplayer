@@ -51,6 +51,9 @@ Unfortunately, some of .m4a files has nuances and cannot play by player. We can'
 
 == Changelog ==
 
+= 2.0.7 =
+*    Added possibility to hide song name, but leave Download link
+
 = 2.0.6 =
 *    Fixed Facebook share functionality
 *    Improved admin design
