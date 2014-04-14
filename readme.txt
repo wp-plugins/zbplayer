@@ -3,7 +3,7 @@ Contributors: zubaka
 Donate link: http://gilevich.com/
 Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player, facebook share, share mp3, m4a, m4b, mp4, m4a player, m4b player, mp4 player, wav, wav player
 Requires at least: 3.5
-Tested up to: 3.8.1
+Tested up to: 3.8.2
 Stable tag: 2.1.1
 License: Dual Licensed under the MIT and GPLv2 or later
 
@@ -51,7 +51,7 @@ Unfortunately, some of .m4a files has nuances and cannot play by player. We can'
 
 == Changelog ==
 
-= 2.1.1 =
+= 2.1.1/2 =
 *    Improved search algorithm for audio files/links
 
 = 2.1.0 =

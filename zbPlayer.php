@@ -3,7 +3,7 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 2.1.1
+Version: 2.1.2
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
@@ -14,10 +14,10 @@ Author URI: http://gilevich.com/
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 2.1.1, April 2014
+ *  Release 2.1.2, April 2014
  */
 
-define('ZBPLAYER_VERSION', "2.1.1");
+define('ZBPLAYER_VERSION', "2.1.2");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
@@ -93,14 +93,14 @@ function zbp_content($content)
 {
   // Replace mp3 links (don't do this in feeds and excerpts)
   if ( !is_feed() ) {
-    $pattern = '#^<a.*href=[\'"]((http://|https://).*/.*(\.mp3|\.m4a|\.m4b|\.mp4|\.wav))[\'"].*>.*</a>#im';
+    $pattern = '#^(<p>)?<a.*href=[\'"]((http://|https://).*/.*(\.mp3|\.m4a|\.m4b|\.mp4|\.wav))[\'"].*>.*</a>(</p>|<br />)?#im';
 		if (get_option('zbp_collect_mp3') == 'true') {
 			preg_match_all( $pattern, $content, $matches );
 			$titles = array();
 			$links = array();
-			if (count($matches) && isset($matches[1]) && count($matches[1])) {
+			if (count($matches) && isset($matches[2]) && count($matches[2])) {
 				$patternTitle = '/^<a.*?data-title=(["\'])(.*?)\1.*$/';
-				foreach($matches[1] as $key => $link) {
+				foreach($matches[2] as $key => $link) {
 					preg_match_all( $patternTitle, $matches[0][$key], $matchesTitle );
 					$titles[] = isset($matchesTitle[2][0]) ? $matchesTitle[2][0] : urlencode( str_replace('_', '', strip_tags($matches[0][$key])) );
 					$links[] = zbp_urlencode($link);
@@ -139,7 +139,7 @@ function zbpShare(url) {
 // Main code - insert player into content
 function zbp_insert_player($matches)
 {
-  $link = preg_split("/[\|]/", $matches[1]);
+  $link = preg_split("/[\|]/", $matches[2]);
   $link = $link[0];
   $name = str_replace('_', ' ', strip_tags($matches[0]));
 	$titles = str_replace('&#8211;', '-', $name);

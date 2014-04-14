@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 2.1.1 April 2014
+ *  Release 2.1.2 April 2014
  */
 ?>
 <?php // connect wordpress color picker
