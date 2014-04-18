@@ -3,7 +3,7 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 2.1.3
+Version: 2.1.4
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 ****************************************************
@@ -14,10 +14,10 @@ Author URI: http://gilevich.com/
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.php
- *  Release 2.1.3, April 2014
+ *  Release 2.1.4, April 2014
  */
 
-define('ZBPLAYER_VERSION', "2.1.3");
+define('ZBPLAYER_VERSION', "2.1.4");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
@@ -120,9 +120,14 @@ function zbp_content($content)
 					. '&amp;soundFile='.implode(',',$links)
 					. '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';
 				$content = str_replace(get_option('zbp_collect_field'), $player, $content);
-			}
+			} else {
+                // fix if error occured for preg_match_all()
+				$content = str_replace(get_option('zbp_collect_field'), '', $content);
+            }
 		} else {
-			$content = preg_replace_callback( $pattern, "zbp_insert_player", $content );
+			$result = preg_replace_callback( $pattern, "zbp_insert_player", $content );
+            // fix if error occured for preg_replace_callback()
+            $content = empty($result) ? $content : $result;
 			// add share popup
 			$content .= PHP_EOL . "<script>
 function zbpShare(url) {
@@ -130,6 +135,7 @@ function zbpShare(url) {
   window.open(sharer, 'sharer', 'width=626,height=436');
   return false;
 }
+var zbPregResult = '".preg_last_error()."';
 </script>" . PHP_EOL;
 		}
   }

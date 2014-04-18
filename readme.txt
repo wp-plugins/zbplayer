@@ -3,8 +3,8 @@ Contributors: zubaka
 Donate link: http://gilevich.com/
 Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player, facebook share, share mp3, m4a, m4b, mp4, m4a player, m4b player, mp4 player, wav, wav player
 Requires at least: 3.5
-Tested up to: 3.8.3
-Stable tag: 2.1.3
+Tested up to: 3.9
+Stable tag: 2.1.4
 License: Dual Licensed under the MIT and GPLv2 or later
 
 zbPlayer is a small and very easy plugin. It does one thing: capture mp3 links and insert a small flash player instead.
@@ -50,6 +50,9 @@ You can use Facebook share button to add song on your timeline and play it on Fa
 Unfortunately, some of .m4a files has nuances and cannot play by player. We can't fix that. Use .mp3 files - they works always.
 
 == Changelog ==
+
+= 2.1.4 =
+*    Fixed problem with empty posts (regex errors).
 
 = 2.1.1/2/3 =
 *    Improved search algorithm for audio files/links.
