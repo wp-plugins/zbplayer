@@ -52,7 +52,7 @@ Unfortunately, some of .m4a files has nuances and cannot play by player. We can'
 == Changelog ==
 
 = 2.1.5 =
-*    Fixed problem with lost audio files from &lt;a&gt links.
+*    Fixed problem with lost audio files from &lt;a&gt; links.
 
 = 2.1.4 =
 *    Fixed problem with empty posts (regex errors).
