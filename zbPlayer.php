@@ -87,7 +87,7 @@ function zbp_content($content)
     // Replace mp3 links (don't do this in feeds and excerpts)
     if ( !is_feed() ) {
         ini_set('pcre.backtrack_limit', max(10000000, ini_get('pcre.backtrack_limit')));
-        $pattern = '#<a.*href=[\'"]((http://|https://).*/.*(\.mp3|\.m4a|\.m4b|\.mp4|\.wav))[\'"].*>.*</a>#im';
+        $pattern = '#<a.*href=[\'"]((http://|https://).*/.*(\.mp3|\.m4a|\.m4b|\.mp4|\.wav))[\'"].*>.*</a>#imU';
         if (get_option('zbp_collect_mp3') == 'true') {
             preg_match_all( $pattern, $content, $matches );
             $titles = array();
