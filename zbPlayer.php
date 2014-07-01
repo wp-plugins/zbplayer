@@ -3,13 +3,13 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 2.1.4
+Version: 2.1.6
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 Licence: Dual Licensed under the MIT and GPL licenses. See license.txt, included with this package for more
 */
 
-define('ZBPLAYER_VERSION', "2.1.4");
+define('ZBPLAYER_VERSION', "2.1.6");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
@@ -86,7 +86,7 @@ function zbp_content($content)
 {
     // Replace mp3 links (don't do this in feeds and excerpts)
     if ( !is_feed() ) {
-        ini_set('pcre.backtrack_limit', max(10000000, ini_get('pcre.backtrack_limit')));
+        @ini_set('pcre.backtrack_limit', max(10000000, ini_get('pcre.backtrack_limit')));
         $pattern = '#<a.*href=[\'"]((http://|https://).*/.*(\.mp3|\.m4a|\.m4b|\.mp4|\.wav))[\'"].*>.*</a>#imU';
         if (get_option('zbp_collect_mp3') == 'true') {
             preg_match_all( $pattern, $content, $matches );
@@ -132,7 +132,7 @@ function zbpShare(url) {
 var zbPregResult = '".preg_last_error()."';
 </script>" . PHP_EOL;
         }
-        ini_restore('pcre.backtrack_limit');
+        @ini_restore('pcre.backtrack_limit');
     }
     return $content;
 }
