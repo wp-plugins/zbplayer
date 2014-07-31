@@ -3,13 +3,13 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 2.1.6
+Version: 2.1.7
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 Licence: Dual Licensed under the MIT and GPL licenses. See license.txt, included with this package for more
 */
 
-define('ZBPLAYER_VERSION', "2.1.6");
+define('ZBPLAYER_VERSION', "2.1.7");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
@@ -119,7 +119,10 @@ function zbp_content($content)
                 $content = str_replace(get_option('zbp_collect_field'), '', $content);
             }
         } else {
-            $result = preg_replace_callback( $pattern, "zbp_insert_player", $content );
+            // let's try find exact value or expected replaces to do not have limit problems with preg_replace()
+            preg_match_all( $pattern, $content, $matches );
+            $expectedReplaces = (is_array($matches) && count($matches)) ? count($matches[0]) : -1;
+            $result = preg_replace_callback( $pattern, "zbp_insert_player", $content, $expectedReplaces );
             // fix if error occured for preg_replace_callback()
             $content = empty($result) ? $content : $result;
             // add share popup
