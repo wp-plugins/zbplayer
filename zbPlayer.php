@@ -207,9 +207,17 @@ function zbp_insert_player($matches)
     return $ret;
 }
 
-
+/**
+ * Test if incoming parameter contain utf8 symbols
+ *
+ * @param mixed(string|array) $mixed
+ * @return boolean
+ */
 function zbp_is_utf8($mixed)
 {
+    if (!function_exists('mb_detect_encoding')) {
+        return true;
+    }
     if (is_array($mixed)) {
         foreach ($mixed as $name) {
             if (mb_detect_encoding($name) == 'UTF-8') {
