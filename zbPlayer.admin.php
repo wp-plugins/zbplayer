@@ -6,12 +6,12 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 2.1.7 July 2014
+ *  Release 2.1.8 August 2014
  */
 // connect wordpress color picker
 WP_Enqueue_Script('farbtastic');
 WP_Enqueue_Style('farbtastic');
-WP_Enqueue_Script('zbplayer-options', get_bloginfo('wpurl').'/'.Str_Replace("\\", '/', SubStr(RealPath(DirName(__FILE__)), Strlen(ABSPATH))) . '/js/zbPlayerColors.js');
+WP_Enqueue_Script('zbplayer-options', get_bloginfo('wpurl').'/'.str_replace("\\", '/', substr(realpath(dirname(__FILE__)), strlen(ABSPATH))) . '/js/zbPlayerColors.js');
 ?>
 <div class="wrap">
 <div id="icon-plugins" class="icon32"><br/></div>

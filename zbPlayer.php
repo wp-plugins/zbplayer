@@ -3,13 +3,13 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 2.1.7
+Version: 2.1.8
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 Licence: Dual Licensed under the MIT and GPL licenses. See license.txt, included with this package for more
 */
 
-define('ZBPLAYER_VERSION', "2.1.7");
+define('ZBPLAYER_VERSION', "2.1.8");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
@@ -41,8 +41,8 @@ add_action('admin_menu','zbp_add_pages');
 add_filter('the_content', 'zbp_content');
 add_action('plugins_loaded', 'zbp_init');
 
-WP_Enqueue_Style('zbplayer-style', get_bloginfo('wpurl').'/'.Str_Replace("\\", '/', SubStr(RealPath(DirName(__FILE__)), Strlen(ABSPATH))) . '/css/zbPlayer.css');
-WP_Enqueue_Script('zbplayer-flash', get_bloginfo('wpurl').'/'.Str_Replace("\\", '/', SubStr(RealPath(DirName(__FILE__)), Strlen(ABSPATH))) . '/js/zbPlayerFlash.js');
+WP_Enqueue_Style('zbplayer-style', get_bloginfo('wpurl').'/'.str_replace("\\", '/', substr(realpath(dirname(__FILE__)), strlen(ABSPATH))) . '/css/zbPlayer.css');
+WP_Enqueue_Script('zbplayer-flash', get_bloginfo('wpurl').'/'.str_replace("\\", '/', substr(realpath(dirname(__FILE__)), strlen(ABSPATH))) . '/js/zbPlayerFlash.js');
 
 function zbp_init()
 {
@@ -81,7 +81,12 @@ function zbp_init()
     zbp_load_language_file();
 }
 
-// Replace mp3 links in content with player 
+/**
+ * Replace mp3 links in content with player 
+ *
+ * @param string $content
+ * @return string
+ */
 function zbp_content($content)
 {
     // Replace mp3 links (don't do this in feeds and excerpts)
@@ -97,7 +102,7 @@ function zbp_content($content)
                 foreach($matches[1] as $key => $link) {
                     preg_match_all( $patternTitle, $matches[0][$key], $matchesTitle );
                     $titles[] = isset($matchesTitle[2][0]) ? $matchesTitle[2][0] : urlencode( str_replace('_', '', strip_tags($matches[0][$key])) );
-                    $links[] = zbp_urlencode($link);
+                    $links[] = $link;
                 }
             }
             if (count($links)) {
@@ -111,7 +116,7 @@ function zbp_content($content)
                     . '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
                     . ' flashvars="loop='.$loop.'&animation='.$animation.'&amp;playerID=zbPlayer&amp;initialvolume='.$initialvolume . zbp_get_color_srt()
                     . $titles
-                    . '&amp;soundFile='.implode(',',$links)
+                    . '&amp;encode=yes&amp;soundFile='.zbp_encode_source(implode(',',$links))
                     . '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';
                 $content = str_replace(get_option('zbp_collect_field'), $player, $content);
             } else {
@@ -140,7 +145,12 @@ var zbPregResult = '".preg_last_error()."';
     return $content;
 }
 
-// Main code - insert player into content
+/**
+ * Main code - insert player into content
+ *
+ * @param array $matches
+ * @return string
+ */
 function zbp_insert_player($matches)
 {
     $link = preg_split("/[\|]/", $matches[1]);
@@ -179,14 +189,42 @@ function zbp_insert_player($matches)
         . $shareInline
         . '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
         . ' flashvars="loop='.$loop.'&animation='.$animation.'&amp;playerID=zbPlayer&amp;initialvolume='.$initialvolume . zbp_get_color_srt()
-        . $titles.'&amp;soundFile='.zbp_urlencode($link)
+        . $titles.'&amp;encode=yes&amp;soundFile='.zbp_encode_source($link)
         . '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="zbPlayerFlash" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/>';
     $ret .= '<audio class="zbPlayerNative" src="'.$link.'" controls preload="none"></audio>';
     $ret .= '</div>';
     return $ret;
 }
 
-// own ulrencode method - need to convert to utf8 filename if it is not in utf8
+/**
+ * Encodes the given string for flash player
+ *
+ * @param string $string String to encode
+ * @return the encoded string
+ */
+function zbp_encode_source($string)
+{
+    $source = utf8_decode($string);
+    $ntexto = "";
+    $codekey = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
+    for ($i = 0; $i < strlen($string); $i++) {
+				$ntexto .= substr("0000".base_convert(ord($string{$i}), 10, 2), -8);
+    }
+    $ntexto .= substr("00000", 0, 6-strlen($ntexto)%6);
+    $string = "";
+    for ($i = 0; $i < strlen($ntexto)-1; $i = $i + 6) {
+				$string .= $codekey{intval(substr($ntexto, $i, 6), 2)};
+    }
+    
+    return $string;
+}
+
+/**
+ * own ulrencode method - need to convert to utf8 filename if it is not in utf8
+ *
+ * @param string $link
+ * @return stting
+ */
 function zbp_urlencode($link)
 {
     $url = parse_url($link);
@@ -199,21 +237,31 @@ function zbp_urlencode($link)
     return $link;
 }
 
-// pathinfo with UTF-8 encoded file names too. Special thanks Pietro Baricco
+/**
+ * pathinfo with UTF-8 encoded file names too. Special thanks Pietro Baricco
+ *
+ * @param string $filepath
+ * @return array
+ */
 function zbp_mb_pathinfo($filepath)
 {
-    preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im',$filepath,$m);
-    if($m[1]) $ret['dirname']=$m[1];
-    if($m[2]) $ret['basename']=$m[2];
-    if($m[5]) $ret['extension']=$m[5];
-    if($m[3]) $ret['filename']=$m[3];
+    preg_match('%^(.*?)[\\\\/]*(([^/\\\\]*?)(\.([^\.\\\\/]+?)|))[\\\\/\.]*$%im', $filepath, $m);
+    if ($m[1]) $ret['dirname'] = $m[1];
+    if ($m[2]) $ret['basename'] = $m[2];
+    if ($m[5]) $ret['extension'] = $m[5];
+    if ($m[3]) $ret['filename'] = $m[3];
     return $ret;
 }
 
-// replace special symbols to do not destoy flash vars
+/**
+ * replace special symbols to do not destoy flash vars
+ *
+ * @param string $string
+ * @return string
+ */
 function zbp_flash_entities($string)
 { 
-    return str_replace(array("%", "&","'"),array("%25","%26","%27"),$string); 
+    return str_replace(array("%", "&","'"), array("%25","%26","%27"), $string); 
 } 
 
 // See if we need to install/update
@@ -221,27 +269,37 @@ if (get_option('zbp_version') != ZBPLAYER_VERSION) {
     zbp_setup(ZBPLAYER_VERSION);
 }
 
-// Add the script
+/**
+ * Add the script
+ */
 function zbp_add_pages()
 {
     // Add a new submenu under options
-    add_options_page('zbPlayer','zbPlayer','manage_options','zbplayer','zbp_manage_page');
+    add_options_page('zbPlayer', 'zbPlayer', 'manage_options', 'zbplayer', 'zbp_manage_page');
 }
 
-// Management Page
+/**
+ * Management Page
+ */
 function zbp_manage_page()
 {
     include_once('zbPlayer.admin.php');
 }
 
 
-// Setup Function
+/**
+ * Setup Function
+ *
+ * @param string $ZBPLAYER_VERSION
+ */
 function zbp_setup($ZBPLAYER_VERSION)
 {
-    update_option('zbp_version',$ZBPLAYER_VERSION);
+    update_option('zbp_version', $ZBPLAYER_VERSION);
 }
 
-// Loads language files according to locale (only does this once per request)
+/**
+ * Loads language files according to locale (only does this once per request)
+ */
 function zbp_load_language_file()
 {
     if (function_exists('load_plugin_textdomain')) {
