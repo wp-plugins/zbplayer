@@ -6,7 +6,7 @@
  *  See license.txt, included with this package for more
  *
  *	zbPlayer.admin.php
- *  Release 2.1.8 August 2014
+ *  Release 2.1.9 August 2014
  */
 // connect wordpress color picker
 WP_Enqueue_Script('farbtastic');

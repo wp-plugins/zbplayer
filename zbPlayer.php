@@ -3,13 +3,13 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 2.1.8
+Version: 2.1.9
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 Licence: Dual Licensed under the MIT and GPL licenses. See license.txt, included with this package for more
 */
 
-define('ZBPLAYER_VERSION', "2.1.8");
+define('ZBPLAYER_VERSION', "2.1.9");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
@@ -106,6 +106,17 @@ function zbp_content($content)
                 }
             }
             if (count($links)) {
+                // test on utf-8 in links
+                if (zbp_is_utf8($links)) {
+                    foreach ($links as $key => $link) {
+                        $links[$key] = zbp_urlencode($link);
+                    }
+                    $links = implode(',', $links);
+                    $encode = '';
+                } else {
+                    $links = zbp_encode_source(implode(',', $links));
+                    $encode = '&amp;encode=yes';
+                }
                 $loop = get_option('zbp_loop') == 'true' ? 'yes' : 'no';
                 $autostart = get_option('zbp_autostart') == 'true' ? 'yes' : 'no';
                 $animation = get_option('zbp_animation') == 'true' ? 'yes' : 'no';
@@ -116,7 +127,7 @@ function zbp_content($content)
                     . '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
                     . ' flashvars="loop='.$loop.'&animation='.$animation.'&amp;playerID=zbPlayer&amp;initialvolume='.$initialvolume . zbp_get_color_srt()
                     . $titles
-                    . '&amp;encode=yes&amp;soundFile='.zbp_encode_source(implode(',',$links))
+                    . $encode.'&amp;soundFile='.$links
                     . '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="player" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/></div>';
                 $content = str_replace(get_option('zbp_collect_field'), $player, $content);
             } else {
@@ -184,16 +195,41 @@ function zbp_insert_player($matches)
     $songname = get_option('zbp_show_name') == 'Y' ? $name . $download . $shareSmall: $download . $shareSmall;
     $songname .= !empty($songname) ? '<br/>' : '';
     $titles = (get_option('zbp_id3') == 'true') ? '' : '&amp;titles='.urlencode($titles);
-
+    $encode = zbp_is_utf8($link) ? '' : '&amp;encode=yes';
     $ret = '<div class="zbPlayer">' . $songname
         . $shareInline
         . '<embed width="'.$width.'" height="26" wmode="transparent" menu="false" quality="high"'
         . ' flashvars="loop='.$loop.'&animation='.$animation.'&amp;playerID=zbPlayer&amp;initialvolume='.$initialvolume . zbp_get_color_srt()
-        . $titles.'&amp;encode=yes&amp;soundFile='.zbp_encode_source($link)
+        . $titles.$encode.'&amp;soundFile='.zbp_encode_source($link)
         . '&amp;autostart='.$autostart.'" type="application/x-shockwave-flash" class="zbPlayerFlash" src="'.plugin_dir_url(__FILE__).'data/player.swf" id="zbPlayer"/>';
     $ret .= '<audio class="zbPlayerNative" src="'.$link.'" controls preload="none"></audio>';
     $ret .= '</div>';
     return $ret;
+}
+
+/**
+ * Test if incoming parameter contain utf8 symbols
+ *
+ * @param mixed(string|array) $mixed
+ * @return boolean
+ */
+function zbp_is_utf8($mixed)
+{
+    if (!function_exists('mb_detect_encoding')) {
+        return true;
+    }
+    if (is_array($mixed)) {
+        foreach ($mixed as $name) {
+            if (mb_detect_encoding($name) == 'UTF-8') {
+                return true;
+            }
+        }
+    } else {
+        if (mb_detect_encoding($mixed) == 'UTF-8') {
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
@@ -204,6 +240,9 @@ function zbp_insert_player($matches)
  */
 function zbp_encode_source($string)
 {
+    if (zbp_is_utf8($string)) {
+        return zbp_urlencode($string);
+    }
     $source = utf8_decode($string);
     $ntexto = "";
     $codekey = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
