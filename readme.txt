@@ -1,6 +1,6 @@
 ===zbPlayer ===
 Contributors: zubaka
-Donate link: http://gilevich.com/
+Donate link: http://gilevich.com/portfolio/zbplayer
 Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player, facebook share, share mp3, m4a, m4b, mp4, m4a player, m4b player, mp4 player, wav, wav player
 Requires at least: 3.5
 Tested up to: 4.2.2
