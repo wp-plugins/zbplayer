@@ -3,8 +3,8 @@ Contributors: zubaka
 Donate link: http://gilevich.com/
 Tags: mp3, flash player, audio, easy control, noJS, small mp3 player, embed, media player, music player, mp3 player, cyrillic mp3 player, facebook share, share mp3, m4a, m4b, mp4, m4a player, m4b player, mp4 player, wav, wav player
 Requires at least: 3.5
-Tested up to: 3.9.2
-Stable tag: 2.1.9
+Tested up to: 4.2.2
+Stable tag: 2.1.10
 License: Dual Licensed under the MIT and GPLv2 or later
 
 zbPlayer is a small and very easy plugin. It does one thing: capture mp3 links and insert a small flash player instead.
@@ -51,6 +51,9 @@ Unfortunately, some of .m4a files has nuances and cannot play by player. We can'
 
 == Changelog ==
 
+= 2.1.10 =
+*    For now player understand also default Wordpress [audio mp3="http://xxxxxx"][/audio] tags.
+
 = 2.1.8/9 =
 *    Fix links/file name problem. Sometime flash player did not understand correctly file names to play.
 
@@ -87,7 +90,7 @@ Unfortunately, some of .m4a files has nuances and cannot play by player. We can'
 *    Added possibility set custom song title via "data-title" tags. For example &lt;a data-title="Custom title"&gt;Standard title&lt;/a&gt;
 
 = 2.0.2 =
-*    Moved control for ID3 tags to gobal menu 
+*    Moved control for ID3 tags to gobal menu
 
 = 2.0.1 =
 *    Added possibility to use ID3 tags from files instead link name

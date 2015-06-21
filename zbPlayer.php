@@ -3,13 +3,13 @@
 Plugin Name: zbPlayer
 Plugin URI: http://gilevich.com/portfolio/zbplayer
 Description: Converts mp3 files links to a small flash player and a link to download file mp3 file. Also you can share your mp3 files with that plugin.
-Version: 2.1.9
+Version: 2.1.10
 Author: Vladimir Gilevich
 Author URI: http://gilevich.com/
 Licence: Dual Licensed under the MIT and GPL licenses. See license.txt, included with this package for more
 */
 
-define('ZBPLAYER_VERSION', "2.1.9");
+define('ZBPLAYER_VERSION', "2.1.10");
 define('ZBPLAYER_DEFAULT_WIDTH', "500");
 define('ZBPLAYER_DEFAULT_INITIALVOLUME', "60");
 define('ZBPLAYER_DEFAULT_SHOW_NAME', "Y");
@@ -47,42 +47,42 @@ WP_Enqueue_Script('zbplayer-flash', get_bloginfo('wpurl').'/'.str_replace("\\", 
 function zbp_init()
 {
     if (get_option('zbp_width') <= 0) {
-        update_option('zbp_width',ZBPLAYER_DEFAULT_WIDTH);
+        update_option('zbp_width', ZBPLAYER_DEFAULT_WIDTH);
     }
     if (get_option('zbp_show_name') == '') {
-        update_option('zbp_show_name',ZBPLAYER_DEFAULT_SHOW_NAME);
+        update_option('zbp_show_name', ZBPLAYER_DEFAULT_SHOW_NAME);
     }
     if (get_option('zbp_animation') == '') {
-        update_option('zbp_animation',ZBPLAYER_DEFAULT_ANIMATION);
+        update_option('zbp_animation', ZBPLAYER_DEFAULT_ANIMATION);
     }
     if (get_option('zbp_collect_field') == '') {
-        update_option('zbp_collect_field',ZBPLAYER_DEFAULT_COLLECT_FIELD);
+        update_option('zbp_collect_field', ZBPLAYER_DEFAULT_COLLECT_FIELD);
     }
     if (get_option('zbp_share') == '') {
-        update_option('zbp_share',ZBPLAYER_SHARE_INLINE);
+        update_option('zbp_share', ZBPLAYER_SHARE_INLINE);
     }
     if (get_option('zbp_bg_color') == '') {
-        update_option('zbp_bg_color',ZBPLAYER_COLOR_BG);
-        update_option('zbp_bg_left_color',ZBPLAYER_COLOR_LEFTBG);
-        update_option('zbp_icon_left_color',ZBPLAYER_COLOR_LEFTICON);
-        update_option('zbp_voltrack_color',ZBPLAYER_COLOR_VOLTRACK);
-        update_option('zbp_volslider_color',ZBPLAYER_COLOR_VOLSLIDER);
-        update_option('zbp_bg_right_color',ZBPLAYER_COLOR_RIGHTBG);
-        update_option('zbp_bg_right_hover_color',ZBPLAYER_COLOR_RIGHTBGHOVER);
-        update_option('zbp_icon_right_color',ZBPLAYER_COLOR_RIGHTICON);
-        update_option('zbp_icon_right_hover_color',ZBPLAYER_COLOR_RIGHTICONHOVER);
-        update_option('zbp_loader_color',ZBPLAYER_COLOR_LOADER);
-        update_option('zbp_track_color',ZBPLAYER_COLOR_TRACK);
-        update_option('zbp_tracker_color',ZBPLAYER_COLOR_TRACKER);
-        update_option('zbp_border_color',ZBPLAYER_COLOR_BORDER);
-        update_option('zbp_skip_color',ZBPLAYER_COLOR_SKIP);
-        update_option('zbp_text_color',ZBPLAYER_COLOR_TEXT);
+        update_option('zbp_bg_color', ZBPLAYER_COLOR_BG);
+        update_option('zbp_bg_left_color', ZBPLAYER_COLOR_LEFTBG);
+        update_option('zbp_icon_left_color', ZBPLAYER_COLOR_LEFTICON);
+        update_option('zbp_voltrack_color', ZBPLAYER_COLOR_VOLTRACK);
+        update_option('zbp_volslider_color', ZBPLAYER_COLOR_VOLSLIDER);
+        update_option('zbp_bg_right_color', ZBPLAYER_COLOR_RIGHTBG);
+        update_option('zbp_bg_right_hover_color', ZBPLAYER_COLOR_RIGHTBGHOVER);
+        update_option('zbp_icon_right_color', ZBPLAYER_COLOR_RIGHTICON);
+        update_option('zbp_icon_right_hover_color', ZBPLAYER_COLOR_RIGHTICONHOVER);
+        update_option('zbp_loader_color', ZBPLAYER_COLOR_LOADER);
+        update_option('zbp_track_color', ZBPLAYER_COLOR_TRACK);
+        update_option('zbp_tracker_color', ZBPLAYER_COLOR_TRACKER);
+        update_option('zbp_border_color', ZBPLAYER_COLOR_BORDER);
+        update_option('zbp_skip_color', ZBPLAYER_COLOR_SKIP);
+        update_option('zbp_text_color', ZBPLAYER_COLOR_TEXT);
     }
     zbp_load_language_file();
 }
 
 /**
- * Replace mp3 links in content with player 
+ * Replace mp3 links in content with player
  *
  * @param string $content
  * @return string
@@ -92,15 +92,20 @@ function zbp_content($content)
     // Replace mp3 links (don't do this in feeds and excerpts)
     if ( !is_feed() ) {
         @ini_set('pcre.backtrack_limit', max(10000000, ini_get('pcre.backtrack_limit')));
+
+        // replace [audio mp3=xxx][/audio] to <a href> links at first
+        $pattern = '#\[audio.*mp3=[\'"]((http://|https://).*/.*(\.mp3|\.m4a|\.m4b|\.mp4|\.wav))[\'"].*\].*\[/audio\]#imU';
+        $content = preg_replace($pattern, '<a href="\1"></a>', $content);
+
         $pattern = '#<a.*href=[\'"]((http://|https://).*/.*(\.mp3|\.m4a|\.m4b|\.mp4|\.wav))[\'"].*>.*</a>#imU';
         if (get_option('zbp_collect_mp3') == 'true') {
-            preg_match_all( $pattern, $content, $matches );
+            preg_match_all($pattern, $content, $matches);
             $titles = array();
             $links = array();
             if (count($matches) && isset($matches[1]) && count($matches[1])) {
                 $patternTitle = '/^<a.*?data-title=(["\'])(.*?)\1.*$/';
                 foreach($matches[1] as $key => $link) {
-                    preg_match_all( $patternTitle, $matches[0][$key], $matchesTitle );
+                    preg_match_all($patternTitle, $matches[0][$key], $matchesTitle);
                     $titles[] = isset($matchesTitle[2][0]) ? $matchesTitle[2][0] : urlencode( str_replace('_', '', strip_tags($matches[0][$key])) );
                     $links[] = $link;
                 }
@@ -136,7 +141,7 @@ function zbp_content($content)
             }
         } else {
             // let's try find exact value or expected replaces to do not have limit problems with preg_replace()
-            preg_match_all( $pattern, $content, $matches );
+            preg_match_all($pattern, $content, $matches);
             $expectedReplaces = (is_array($matches) && count($matches)) ? count($matches[0]) : -1;
             $result = preg_replace_callback( $pattern, "zbp_insert_player", $content, $expectedReplaces );
             // fix if error occured for preg_replace_callback()
@@ -174,7 +179,7 @@ function zbp_insert_player($matches)
     if (get_option('zbp_download') == 'true') {
         $linkInfo = zbp_mb_pathinfo($link);
         $downloadName = isset($linkInfo['basename']) && $linkInfo['basename'] ? $linkInfo['basename'] : 'song.mp3';
-    } 
+    }
     $download = get_option('zbp_download') == 'true' ? '<span> [<a href="'.$link.'" class="zbPlayer-download" download="'.$downloadName.'">'.__("Download", 'zbplayer').'</a>] </span>' : '';
     $loop = get_option('zbp_loop') == 'true' ? 'yes' : 'no';
     $autostart = get_option('zbp_autostart') == 'true' ? 'yes' : 'no';
@@ -247,14 +252,14 @@ function zbp_encode_source($string)
     $ntexto = "";
     $codekey = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
     for ($i = 0; $i < strlen($string); $i++) {
-				$ntexto .= substr("0000".base_convert(ord($string{$i}), 10, 2), -8);
+                $ntexto .= substr("0000".base_convert(ord($string{$i}), 10, 2), -8);
     }
     $ntexto .= substr("00000", 0, 6-strlen($ntexto)%6);
     $string = "";
     for ($i = 0; $i < strlen($ntexto)-1; $i = $i + 6) {
-				$string .= $codekey{intval(substr($ntexto, $i, 6), 2)};
+                $string .= $codekey{intval(substr($ntexto, $i, 6), 2)};
     }
-    
+
     return $string;
 }
 
@@ -270,7 +275,7 @@ function zbp_urlencode($link)
     $file = zbp_mb_pathinfo($url['path']);
 
     // prepare filename and encode if need
-    $filename = function_exists('mb_detect_encoding') && mb_detect_encoding($file['basename']) != "UTF-8" ? utf8_encode($file['basename']) : $file['basename']; 
+    $filename = function_exists('mb_detect_encoding') && mb_detect_encoding($file['basename']) != "UTF-8" ? utf8_encode($file['basename']) : $file['basename'];
 
     $link = $url['scheme'] . '://' . $url['host'] . $file['dirname'] . '/' . zbp_flash_entities(urlencode($filename));
     return $link;
@@ -299,9 +304,9 @@ function zbp_mb_pathinfo($filepath)
  * @return string
  */
 function zbp_flash_entities($string)
-{ 
-    return str_replace(array("%", "&","'"), array("%25","%26","%27"), $string); 
-} 
+{
+    return str_replace(array("%", "&","'"), array("%25","%26","%27"), $string);
+}
 
 // See if we need to install/update
 if (get_option('zbp_version') != ZBPLAYER_VERSION) {
@@ -348,7 +353,7 @@ function zbp_load_language_file()
 
 function zbp_get_color_srt($delim='&amp;')
 {
-    $color = $delim . 'bg=' .	get_option('zbp_bg_color');
+    $color = $delim . 'bg=' .   get_option('zbp_bg_color');
     $color .= $delim . 'leftbg=' . get_option('zbp_bg_left_color');
     $color .= $delim . 'lefticon=' . get_option('zbp_icon_left_color');
     $color .= $delim . 'voltrack=' . get_option('zbp_voltrack_color');
